@@ -9,6 +9,8 @@ public class Main {
         return userInput;
     }
 
+
+    //below is what allows this file to be run by IntelliJ
     public static void main(String[] args){
         Main main = new Main();
         main.getUserInput();

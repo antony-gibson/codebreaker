@@ -14,7 +14,7 @@ public class CleanText {
         onlyTextInput = strippedUserInput.replaceAll("[^A-Z, 0-9]", ""); //^ is 'not', so anything that isn't a letter or number gets removed
         System.out.println(newUserInput); //shows user capitalised input minus spaces before or after words
         System.out.println(strippedUserInput); //shows user capitalised input with no spaces at all
-        System.out.println(onlyTextInput);
+        System.out.println(onlyTextInput); //shows only letters or numbers of the input
         return onlyTextInput;
     }
 }
