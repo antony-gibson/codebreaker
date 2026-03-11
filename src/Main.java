@@ -5,6 +5,8 @@ public class Main {
        CleanText cleanText = new CleanText();
        System.out.print("Enter your Cipher: ");
        cleanText.toString();
+       System.out.print("You chose ");
+       System.out.println(cleanText.toString());
     }
 
 
