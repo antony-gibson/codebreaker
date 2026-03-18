@@ -13,7 +13,7 @@ public class Main {
         return userCipherInput;
     }
 
-    public void displayMenu(){
+    public String displayMenu(){
         System.out.print("Ello Ello ELlo. Welcome.");
         System.out.println("Please enter the number relating to the choice you are picking:");
         System.out.println("1. Pick your Cipher");
@@ -29,6 +29,7 @@ public class Main {
         System.out.println("0. Exit Program");
         userMenuInput = getUserInput();
         System.out.println("You picked: " + userMenuInput + ". Good Move.");
+        return userMenuInput;
     }
 
     //below is what allows this file to be run by IntelliJ
