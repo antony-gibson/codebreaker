@@ -1,5 +1,6 @@
 public class Main {
     private String userMenuInput;
+    private String userCipherInput;
 
     public String getUserInput(){
         CleanText cleanText = new CleanText();
@@ -13,7 +14,7 @@ public class Main {
         return userCipherInput;
     }
 
-    public String displayMenu(){
+    public void mainMenu(){
         System.out.print("Ello Ello ELlo. Welcome.");
         System.out.println("Please enter the number relating to the choice you are picking:");
         System.out.println("1. Pick your Cipher");
@@ -27,15 +28,47 @@ public class Main {
         System.out.println("9. Input Encrypted File");
         System.out.println("10. Decrypt Encrypted File");
         System.out.println("0. Exit Program");
-        userMenuInput = getUserInput();
-        System.out.println("You picked: " + userMenuInput + ". Good Move.");
-        return userMenuInput;
     }
 
+    public void cipherMenu(){
+        System.out.println("Welcome Back: We Meet Again. Same again, pick the number relating to the Cipher that you want.");
+        System.out.println("1. Caesar Cipher");
+        System.out.println("2. Keyed Caesar Cipher");
+        System.out.println("3. Vigenere Cipher");
+    }
+
+    public void displayMenu(){
+        mainMenu();
+        userMenuInput = getUserInput();
+        System.out.println("You picked: " + userMenuInput + ".");
+        menuActions();
+        //return userMenuInput;
+    }
+
+    public void displayCipherMenu(){
+        cipherMenu();
+        userCipherInput = getUserInput();
+        System.out.println("You picked: " + userCipherInput + ". Outstanding Choice.");
+        //return userCipherInput;
+    }
+
+    public void menuActions(){
+
+       if (userMenuInput.equals("0")){
+            System.exit(0);
+       } else if (userMenuInput.equals("1")){
+           displayCipherMenu();
+       } else {
+           System.out.println("L bozo");
+       }
+
+    }
     //below is what allows this file to be run by IntelliJ
     public static void main(String[] args){
         Main main = new Main();
         main.displayMenu();
         main.getUserInput();
+        main.menuActions();
+        main.displayCipherMenu();
     }
 }
