@@ -14,6 +14,12 @@ public class Main {
         return userCipherInput;
     }
 
+    public String getNumberInput(){
+        CleanText cleanText = new CleanText();
+        String userNumberInput = cleanText.getNumberInput();
+        return userNumberInput;
+    }
+
     public void mainMenu(){
         System.out.print("Ello Ello ELlo. Welcome.");
         System.out.println("Please enter the number relating to the choice you are picking:");
@@ -39,7 +45,7 @@ public class Main {
 
     public void displayMenu(){
         mainMenu();
-        userMenuInput = getUserInput();
+        userMenuInput = getNumberInput();
         System.out.println("You picked: " + userMenuInput + ".");
         menuActions();
         //return userMenuInput;
@@ -47,7 +53,7 @@ public class Main {
 
     public void displayCipherMenu(){
         cipherMenu();
-        userCipherInput = getUserInput();
+        userCipherInput = getNumberInput();
         System.out.println("You picked: " + userCipherInput + ". Outstanding Choice.");
         //return userCipherInput;
     }

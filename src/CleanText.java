@@ -5,12 +5,13 @@ public class CleanText {
     private String newUserInput;
     private String strippedUserInput;
     private String onlyTextInput;
+    private String onlyNumberInput;
     private Scanner input = new Scanner(System.in); //takes user's input
 
     public String getInput(){
         userInput = input.nextLine();
         newUserInput = userInput.trim().toUpperCase();
-        return newUserInput;
+        return userInput;
     }
 
     public String getCipherInput(){
@@ -19,4 +20,12 @@ public class CleanText {
         onlyTextInput = strippedUserInput.replaceAll("[^A-Z]", ""); //^ is 'not', so anything that isn't a letter or number gets removed
         return onlyTextInput;
     }
+
+    public String getNumberInput(){
+        getInput();
+        strippedUserInput = newUserInput.replaceAll("\\s", ""); //double slash allows all whitespace to be removed. It doesn't work without the double slash - if it ain't broke don't fix it.
+        onlyNumberInput = strippedUserInput.replaceAll("[^0-9]", "");
+        return onlyNumberInput;
+    }
+
 }
