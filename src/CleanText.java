@@ -5,7 +5,7 @@ public class CleanText {
     private String newUserInput;
     private String strippedUserInput;
     private String onlyTextInput;
-    private String onlyNumberInput;
+    private int onlyNumberInput;
     private Scanner input = new Scanner(System.in); //takes user's input
 
     public String getInput(){
@@ -21,10 +21,9 @@ public class CleanText {
         return onlyTextInput;
     }
 
-    public String getNumberInput(){
+    public int getNumberInput(){
         getInput();
-        strippedUserInput = newUserInput.replaceAll("\\s", ""); //double slash allows all whitespace to be removed. It doesn't work without the double slash - if it ain't broke don't fix it.
-        onlyNumberInput = strippedUserInput.replaceAll("[^0-9]", "");
+        onlyNumberInput= Integer.parseInt(newUserInput.replaceAll("\\s", "")); //double slash allows all whitespace to be removed. It doesn't work without the double slash - if it ain't broke don't fix it.
         return onlyNumberInput;
     }
 

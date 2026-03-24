@@ -1,6 +1,8 @@
 public class Main {
-    private String userMenuInput;
-    private String userCipherInput;
+    private int userMenuInput;
+    private int userCipherInput;
+    private int userCipherChoice;
+    private String userInput;
 
     public String getUserInput(){
         CleanText cleanText = new CleanText();
@@ -14,15 +16,13 @@ public class Main {
         return userCipherInput;
     }
 
-    public String getNumberInput(){
+    public int getNumberInput(){
         CleanText cleanText = new CleanText();
-        String userNumberInput = cleanText.getNumberInput();
+        int userNumberInput = cleanText.getNumberInput();
         return userNumberInput;
     }
 
     public void mainMenu(){
-        System.out.print("Ello Ello ELlo. Welcome.");
-        System.out.println("Please enter the number relating to the choice you are picking:");
         System.out.println("1. Pick your Cipher");
         System.out.println("2. Edit Key");
         System.out.println("3. Display Key");
@@ -37,7 +37,6 @@ public class Main {
     }
 
     public void cipherMenu(){
-        System.out.println("Welcome Back: We Meet Again. Same again, pick the number relating to the Cipher that you want.");
         System.out.println("1. Caesar Cipher");
         System.out.println("2. Keyed Caesar Cipher");
         System.out.println("3. Vigenere Cipher");
@@ -49,33 +48,70 @@ public class Main {
         userMenuInput = getNumberInput();
         System.out.println("You picked: " + userMenuInput + ".");
         menuActions();
-        //return userMenuInput;
     }
 
     public void displayCipherMenu(){
+        System.out.println("Same again, pick the cipher that you want:");
         cipherMenu();
         userCipherInput = getNumberInput();
         System.out.println("You picked: " + userCipherInput + ". Outstanding Choice.");
 
-        if (userCipherInput.equals("0")){
+        if (userCipherInput == 0){
             System.exit(0);
+        } else {
+            userCipherChoice = userCipherInput;
         }
 
+        System.out.println("");
+        System.out.println("Here is the function list again! Now you have picked a cipher, please select what you want to do with it:");
         displayMenu();
     }
 
-    public void menuActions(){
+    public void menuActions() {
+        Cipher cipher = new Cipher();
 
-       if (userMenuInput.equals("0")){
+        //CHANGE THIS TO A SWITCH CASE STATEMENT
+
+       if (userMenuInput == 0){
             System.exit(0);
-       } else if (userMenuInput.equals("1")){
+       } else if (userMenuInput == 1) {
            displayCipherMenu();
+       } else if (userMenuInput == 2) {
+           //Edit Key
+           System.out.println("Please enter the new key that you would like to use: ");
+           userInput = getUserInput();
+
+           if (userCipherChoice == 1){
+               cipher.writeToFile("OneDrive/Uni Year 1/Semester 2/Programming/Antony Gibson CS12320 Code Breaker Assignment/caesar-key.txt", userInput);
+           } else if (userCipherChoice == 2){
+               cipher.writeToFile("OneDrive/Uni Year 1/Semester 2/Programming/Antony Gibson CS12320 Code Breaker Assignment/keyed-caesar-key.txt", userInput);
+           } else if (userCipherChoice == 3){
+               cipher.writeToFile("OneDrive/Uni Year 1/Semester 2/Programming/Antony Gibson CS12320 Code Breaker Assignment/vigenere-key.txt", userInput);
+           } else {
+               System.out.println("An error has occurred. Please try again.");
+               System.exit(1);
+           }
+
+       } else if (userMenuInput == 3) {
+           //Display Key
+
+           if (userCipherChoice == 1) {
+               cipher.readFromFile("OneDrive/Uni Year 1/Semester 2/Programming/Antony Gibson CS12320 Code Breaker Assignment/caesar-key.txt");
+           } else if (userCipherChoice == 2) {
+               cipher.readFromFile("OneDrive/Uni Year 1/Semester 2/Programming/Antony Gibson CS12320 Code Breaker Assignment/keyed-caesar-key.txt");
+           } else if (userCipherChoice == 3) {
+               cipher.readFromFile("OneDrive/Uni Year 1/Semester 2/Programming/Antony Gibson CS12320 Code Breaker Assignment/vigenere-key.txt");
+           } else {
+               System.out.println("An error has occurred. Please try again.");
+               System.exit(1);
+           }
+
        } else {
-           System.out.println("L bozo");
+           System.out.println("L bozo. I haven't implemented this yet >:(");
        }
     }
 
-    //below is what allows this file to be run by IntelliJ
+    //initialises the functions to run: without this, Main.java cannot be run by IntelliJ
     public static void main(String[] args){
         Main main = new Main();
         main.displayMenu();
