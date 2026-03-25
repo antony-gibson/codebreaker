@@ -70,47 +70,47 @@ public class Main {
     public void menuActions() {
         Cipher cipher = new Cipher();
 
-        //CHANGE THIS TO A SWITCH CASE STATEMENT
+        switch (userMenuInput) {
+            case 0:
+                System.exit(0);
+                break;
+            case 1:
+                displayCipherMenu();
+                break;
+            case 2:
+                System.out.println("Enter key to use: ");
+                userInput = getUserInput();
 
-       if (userMenuInput == 0){
-            System.exit(0);
-       } else if (userMenuInput == 1) {
-           displayCipherMenu();
-       } else if (userMenuInput == 2) {
-           //Edit Key
-           System.out.println("Please enter the new key that you would like to use: ");
-           userInput = getUserInput();
+                if (userCipherChoice == 1){
+                    cipher.writeToFile("caesar-key.txt", userInput);
+                } else if (userCipherChoice == 2){
+                    cipher.writeToFile("keyed-caesar-key.txt", userInput);
+                } else if (userCipherChoice == 3){
+                    cipher.writeToFile("vigenere-key.txt", userInput);
+                } else {
+                    System.out.println("An error has occurred. Please try again.");
+                    System.exit(1);
+                }
+                displayMenu();
+                break;
+            case 3:
+                System.out.println("Here is the key in the file: ");
 
-           if (userCipherChoice == 1){
-               cipher.writeToFile("caesar-key.txt", userInput);
-           } else if (userCipherChoice == 2){
-               cipher.writeToFile("keyed-caesar-key.txt", userInput);
-           } else if (userCipherChoice == 3){
-               cipher.writeToFile("vigenere-key.txt", userInput);
-           } else {
-               System.out.println("An error has occurred. Please try again.");
-               System.exit(1);
-           }
-
-           displayMenu();
-       } else if (userMenuInput == 3) {
-           //Display Key
-
-           if (userCipherChoice == 1) {
-               cipher.readFile("caesar-key.txt");
-           } else if (userCipherChoice == 2) {
-               cipher.readFile("keyed-caesar-key.txt");
-           } else if (userCipherChoice == 3) {
-               cipher.readFile("vigenere-key.txt");
-           } else {
-               System.out.println("An error has occurred. Please try again.");
-               System.exit(1);
-           }
-
-           displayMenu();
-       } else {
-           System.out.println("L bozo. I haven't implemented this yet >:(");
-       }
+                if (userCipherChoice == 1){
+                    cipher.readFile("caesar-key.txt");
+                } else if (userCipherChoice == 2){
+                    cipher.readFile("keyed-caesar-key.txt");
+                } else if (userCipherChoice == 3){
+                    cipher.readFile("vigenere-key.txt");
+                } else {
+                    System.out.println("An error has occurred. Please try again.");
+                    System.exit(1);
+                }
+                displayMenu();
+                break;
+            default:
+                System.out.println("L bozo. I haven't implemented this yet >:(");
+        }
     }
 
     //initialises the functions to run: without this, Main.java cannot be run by IntelliJ
