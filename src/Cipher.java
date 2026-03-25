@@ -13,6 +13,7 @@ public class Cipher {
                 String line = reader.nextLine();
                 System.out.println("THIS IS A TEST. REMOVE BEFORE SUBMISSION");
                 System.out.println(line);
+                System.out.println(" ");
             }
         } catch (IOException error) {
             System.err.println("An Error has occurred: " + error.getMessage());

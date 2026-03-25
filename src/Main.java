@@ -92,6 +92,7 @@ public class Main {
                System.exit(1);
            }
 
+           displayMenu();
        } else if (userMenuInput == 3) {
            //Display Key
 
@@ -106,6 +107,7 @@ public class Main {
                System.exit(1);
            }
 
+           displayMenu();
        } else {
            System.out.println("L bozo. I haven't implemented this yet >:(");
        }
