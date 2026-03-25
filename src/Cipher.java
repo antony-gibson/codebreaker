@@ -42,7 +42,4 @@ public class Cipher {
             System.err.println("An Error has occurred: " + error.getMessage());
         }
     }
-
-
-
 }
