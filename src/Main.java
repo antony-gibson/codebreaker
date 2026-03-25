@@ -82,11 +82,11 @@ public class Main {
            userInput = getUserInput();
 
            if (userCipherChoice == 1){
-               cipher.writeToFile("OneDrive/Uni Year 1/Semester 2/Programming/Antony Gibson CS12320 Code Breaker Assignment/caesar-key.txt", userInput);
+               cipher.writeToFile("caesar-key.txt", userInput);
            } else if (userCipherChoice == 2){
-               cipher.writeToFile("OneDrive/Uni Year 1/Semester 2/Programming/Antony Gibson CS12320 Code Breaker Assignment/keyed-caesar-key.txt", userInput);
+               cipher.writeToFile("keyed-caesar-key.txt", userInput);
            } else if (userCipherChoice == 3){
-               cipher.writeToFile("OneDrive/Uni Year 1/Semester 2/Programming/Antony Gibson CS12320 Code Breaker Assignment/vigenere-key.txt", userInput);
+               cipher.writeToFile("vigenere-key.txt", userInput);
            } else {
                System.out.println("An error has occurred. Please try again.");
                System.exit(1);
@@ -96,11 +96,11 @@ public class Main {
            //Display Key
 
            if (userCipherChoice == 1) {
-               cipher.readFromFile("OneDrive/Uni Year 1/Semester 2/Programming/Antony Gibson CS12320 Code Breaker Assignment/caesar-key.txt");
+               cipher.readFile("caesar-key.txt");
            } else if (userCipherChoice == 2) {
-               cipher.readFromFile("OneDrive/Uni Year 1/Semester 2/Programming/Antony Gibson CS12320 Code Breaker Assignment/keyed-caesar-key.txt");
+               cipher.readFile("keyed-caesar-key.txt");
            } else if (userCipherChoice == 3) {
-               cipher.readFromFile("OneDrive/Uni Year 1/Semester 2/Programming/Antony Gibson CS12320 Code Breaker Assignment/vigenere-key.txt");
+               cipher.readFile("vigenere-key.txt");
            } else {
                System.out.println("An error has occurred. Please try again.");
                System.exit(1);
