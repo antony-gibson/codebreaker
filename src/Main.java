@@ -40,30 +40,35 @@ public class Main {
         System.out.println("1. Caesar Cipher");
         System.out.println("2. Keyed Caesar Cipher");
         System.out.println("3. Vigenere Cipher");
+        System.out.println("4. Display The Other Menu Options");
         System.out.println("0. Exit Program");
     }
 
     public void displayMenu(){
+        System.out.println("");
         mainMenu();
         userMenuInput = getNumberInput();
-        System.out.println("You picked: " + userMenuInput + ".");
         menuActions();
     }
 
     public void displayCipherMenu(){
-        System.out.println("Same again, pick the cipher that you want:");
+        System.out.println("");
         cipherMenu();
         userCipherInput = getNumberInput();
-        System.out.println("You picked: " + userCipherInput + ". Outstanding Choice.");
 
         if (userCipherInput == 0){
             System.exit(0);
-        } else {
+        } else if (userCipherInput == 1 || userCipherInput == 2 || userCipherInput == 3) {
             userCipherChoice = userCipherInput;
+        } else if (userCipherInput == 4) {
+            displayMenu();
+        } else {
+            System.out.println("An Error has occured. Please try again.");
+            System.exit(1);
         }
 
         System.out.println("");
-        System.out.println("Here is the function list again! Now you have picked a cipher, please select what you want to do with it:");
+        System.out.println("Cipher Selected. Now pick what you're going to do with it.");
         displayMenu();
     }
 
