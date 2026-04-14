@@ -5,20 +5,6 @@ import java.io.FileWriter;
 
 public class Cipher {
 
-    public void readFile(String fileName) {
-        //createFile(fileName); removed because why would you need to create the file you are reading from
-        File file = new File(fileName);
-        try (Scanner reader = new Scanner(file)) {
-            while (reader.hasNextLine()) {
-                String line = reader.nextLine();
-                System.out.println(line);
-                System.out.println("\n");
-            }
-        } catch (IOException error) {
-            System.err.println("An Error has occurred: " + error.getMessage());
-        }
-    }
-
     public void writeToFile(String fileName, String content) {
         createFile(fileName);
         try (FileWriter write = new FileWriter(fileName)) {

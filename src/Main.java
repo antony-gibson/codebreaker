@@ -1,23 +1,28 @@
+
 public class Main {
     private int userMenuInput;
     private int userCipherInput;
     private int userCipherChoice;
     private String userInput;
+    CleanText cleanText = new CleanText();
 
-    public String getUserInput(){
-        CleanText cleanText = new CleanText();
+
+    public String getUserFileInput(){
+        String userInput = cleanText.getFileContents();
+        return userInput;
+    }
+
+    public String getInput(){
         String userInput = cleanText.getInput();
         return userInput;
     }
 
     public String getCipherInput(){
-        CleanText cleanText = new CleanText();
         String userCipherInput = cleanText.getCipherInput();
         return userCipherInput;
     }
 
     public int getNumberInput(){
-        CleanText cleanText = new CleanText();
         int userNumberInput = cleanText.getNumberInput();
         return userNumberInput;
     }
@@ -84,7 +89,7 @@ public class Main {
                 break;
             case 2:
                 System.out.println("Enter key to use: ");
-                userInput = getUserInput();
+                userInput = getCipherInput();
 
                 if (userCipherChoice == 1){
                     cipher.writeToFile("caesar-key.txt", userInput);
@@ -102,11 +107,11 @@ public class Main {
                 System.out.println("Here is the key in the file: ");
 
                 if (userCipherChoice == 1){
-                    cipher.readFile("caesar-key.txt");
+                    cleanText.readFile("caesar-key.txt");
                 } else if (userCipherChoice == 2){
-                    cipher.readFile("keyed-caesar-key.txt");
+                    cleanText.readFile("keyed-caesar-key.txt");
                 } else if (userCipherChoice == 3){
-                    cipher.readFile("vigenere-key.txt");
+                    cleanText.readFile("vigenere-key.txt");
                 } else {
                     System.out.println("An error has occurred. Please try again.");
                     System.exit(1);
@@ -122,8 +127,11 @@ public class Main {
     public static void main(String[] args){
         Main main = new Main();
         main.displayMenu();
-        main.getUserInput();
+        main.getInput();
         main.menuActions();
         main.displayCipherMenu();
+        main.getUserFileInput();
+        main.getCipherInput();
+
     }
 }
