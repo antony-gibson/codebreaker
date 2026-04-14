@@ -33,8 +33,18 @@ public class CleanText {
     public String getFileContents(){
         System.out.println("Please enter the file name: ");
         userFileNameInput = input.nextLine();
+        fileCheck(userFileNameInput);
         fileOutput = readFile(userFileNameInput);
         return fileOutput;
+    }
+
+    public void fileCheck(String userFileNameInput) {
+        File file = new File(userFileNameInput);
+
+        while (!userFileNameInput.endsWith(".txt") && !file.exists() && !file.canRead()) {
+            System.out.println("An error has occured. Please try again.");
+            System.exit(1);
+        }
     }
 
     public String userFileName(){

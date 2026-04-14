@@ -112,7 +112,7 @@ public class Main {
 
     public void enterPlaintextFile() {
         cleanText.getFileContents();
-        System.out.println("File has been read successfully. To continue, select another item from the menu.");
+        System.out.println("To continue, select another item from the menu.");
     }
 
     public void displayPreparedPlaintextFile() {
