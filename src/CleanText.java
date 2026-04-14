@@ -37,10 +37,15 @@ public class CleanText {
         return fileOutput;
     }
 
+    public String userFileName(){
+        return userFileNameInput;
+    }
+
     public String fileStringInput(){
         getFileContents();
         strippedUserInput = fileOutput.replaceAll("\\s", ""); //double slash allows all whitespace to be removed. It doesn't work without the double slash - if it ain't broke don't fix it.
         onlyTextInput = strippedUserInput.replaceAll("[^A-Z]", ""); //^ is 'not', so anything that isn't a letter gets removed
+        System.out.println(onlyTextInput);
         return onlyTextInput;
     }
 
