@@ -138,7 +138,6 @@ public class Main {
     }
 
     public void menuActions() {
-        Cipher cipher = new Cipher();
 
         switch (userMenuInput) {
             case 0: //exit

@@ -4,10 +4,10 @@ public class CaesarCipher extends Cipher {
     //also implement a piece asking for the shift value to use for this cipher
     private String cipherOutput;
 
-    public String encrypt (String userInput, int shift) {
+    public String encrypt (String fileName, int shift) {
 
-        for (int i = 0; i < userInput.length(); i++) {
-            char charUserInput = userInput.charAt(i);
+        for (int i = 0; i < fileName.length(); i++) {
+            char charUserInput = fileName.charAt(i);
 
             char encrypted = (char)((charUserInput - 'A' + shift) % 26 + 'A');
 
