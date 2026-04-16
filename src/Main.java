@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 public class Main {
     private int userMenuInput;
@@ -5,7 +6,12 @@ public class Main {
     private int userCipherChoice;
     private String userInput;
     private String plaintextFileName;
+    private String cipherOutput;
+    private String plainTextOutput;
+    private Scanner input = new Scanner(System.in); //takes user's input
+    private String userSaveFileName;
     CleanText cleanText = new CleanText();
+
 
 
     public String getUserFileInput(){
@@ -46,7 +52,7 @@ public class Main {
         System.out.println("1. Caesar Cipher");
         System.out.println("2. Keyed Caesar Cipher");
         System.out.println("3. Vigenere Cipher");
-        System.out.println("4. Display The Other Menu Options");
+        System.out.println("4. Display Other Menu Options");
         System.out.println("0. Exit Program");
     }
 
@@ -110,23 +116,53 @@ public class Main {
         }
     }
 
-    public void enterPlaintextFile() {
+    public void enterFile() {
         cleanText.getFileContents();
         System.out.println("To continue, select another item from the menu.");
     }
 
     public void displayPreparedPlaintextFile() {
-        cleanText.fileStringInput();
+        System.out.println(cleanText.fileStringInput());
     }
 
     public void encryptFile() {
-        String fileName = cleanText.userFileName();
+        String fileOutput = cleanText.fileOutput();
 
         if (userCipherChoice == 1){
             CaesarCipher cipher = new CaesarCipher();
             System.out.println("Please enter the number of spaces to shift your input: ");
             int shift = cleanText.getNumberInput();
-            cipher.encrypt(fileName, shift);
+            cipherOutput = cipher.encrypt(fileOutput, shift);
+        } else if (userCipherChoice == 2){
+            //do the same for Keyed Caesar Cipher
+        } else if (userCipherChoice == 3){
+            //same again for vigenere
+        } else {
+            System.out.println("An error has occurred. Please try again.");
+            System.exit(1);
+        }
+    }
+
+    public void saveFile(String contentsSaved){
+        Cipher cipher = new Cipher();
+        System.out.println("Please enter the filename to save to: ");
+        userSaveFileName = input.nextLine();
+        cipher.writeToFile(userSaveFileName, contentsSaved);
+    }
+
+    public void displayCipherTextFile() {
+        System.out.println(cipherOutput);
+    }
+
+    public void decryptFile() {
+        String fileOutput = cleanText.fileOutput();
+
+        if (userCipherChoice == 1){
+            CaesarCipher cipher = new CaesarCipher();
+            System.out.println("Please enter the shift of your file to decrypt: ");
+            int shift = cleanText.getNumberInput();
+            plainTextOutput = cipher.decrypt(fileOutput, shift);
+            System.out.println(plainTextOutput);
         } else if (userCipherChoice == 2){
             //do the same for Keyed Caesar Cipher
         } else if (userCipherChoice == 3){
@@ -155,7 +191,7 @@ public class Main {
                 displayMenu();
                 break;
             case 4: //input plaintext file
-                enterPlaintextFile();
+                enterFile();
                 displayMenu();
                 break;
             case 5: //display prepared plaintext file
@@ -167,15 +203,20 @@ public class Main {
                 displayMenu();
                 break;
             case 7: //display encrypted cipher output
+                displayCipherTextFile();
                 displayMenu();
                 break;
             case 8: //save cipher text to file
+                saveFile(cipherOutput);
                 displayMenu();
                 break;
             case 9: //input ciphertext file to decrypt
+                enterFile();
                 displayMenu();
                 break;
             case 10: //decrypt ciphertext file
+                decryptFile();
+                saveFile(plainTextOutput);
                 displayMenu();
                 break;
             default:

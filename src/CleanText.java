@@ -13,21 +13,21 @@ public class CleanText {
     private int onlyNumberInput;
     private String line;
     private String fileOutput;
+    private String cleanFileOutput;
 
     public String readFile(String fileName) {
         File file = new File(fileName);
+        String fileContents = "";
         try (Scanner reader = new Scanner(file)) {
             while (reader.hasNextLine()) {
                 line = reader.nextLine();
                 line = line.trim().toUpperCase();
-                System.out.println(line);
-                System.out.println("\n");
-                System.out.println("THIS AND THE TWO ABOVE LINES OF CODE ARE A TEST: REMOVE BEFORE SUBMISSION!!");
+                fileContents += line;
             }
         } catch (IOException error) {
             System.err.println("An Error has occurred: " + error.getMessage());
         }
-        return line;
+        return fileContents;
     }
 
     public String getFileContents(){
@@ -35,7 +35,8 @@ public class CleanText {
         userFileNameInput = input.nextLine();
         fileCheck(userFileNameInput);
         fileOutput = readFile(userFileNameInput);
-        return fileOutput;
+        cleanFileOutput = fileStringInput();
+        return cleanFileOutput;
     }
 
     public void fileCheck(String userFileNameInput) {
@@ -47,20 +48,17 @@ public class CleanText {
         }
     }
 
-    public String userFileName(){
-        return userFileNameInput;
+    public String fileOutput(){
+        return cleanFileOutput;
     }
 
     public String fileStringInput(){
-        getFileContents();
         strippedUserInput = fileOutput.replaceAll("\\s", ""); //double slash allows all whitespace to be removed. It doesn't work without the double slash - if it ain't broke don't fix it.
         onlyTextInput = strippedUserInput.replaceAll("[^A-Z]", ""); //^ is 'not', so anything that isn't a letter gets removed
-        System.out.println(onlyTextInput);
         return onlyTextInput;
     }
 
-    public int fileNumberInput(){
-        getFileContents();
+    public int fileNumberInput(String fileOutput){
         onlyNumberInput= Integer.parseInt(fileOutput.replaceAll("\\s", "")); //double slash allows all whitespace to be removed. It doesn't work without the double slash - if it ain't broke don't fix it.
         return onlyNumberInput;
     }
