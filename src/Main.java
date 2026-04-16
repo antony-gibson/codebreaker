@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class Main {
     private int userMenuInput;
+    private int userMainMenuInput;
     private int userCipherInput;
     private int userCipherChoice;
     private String userInput;
@@ -34,6 +35,12 @@ public class Main {
         return userNumberInput;
     }
 
+    public void subMenu(){
+        System.out.println("1. Pick your Cipher");
+        System.out.println("2. Display Other Menu Options");
+        System.out.println("0. Exit Program");
+    }
+
     public void mainMenu(){
         System.out.println("1. Pick your Cipher");
         System.out.println("2. Edit Key");
@@ -41,10 +48,10 @@ public class Main {
         System.out.println("4. Input Plaintext File");
         System.out.println("5. Display Prepared Plaintext File");
         System.out.println("6. Encrypt File");
-        System.out.println("7. Display Cipher Text");
-        System.out.println("8. Save Cipher Text");
+        System.out.println("7. Display Encrypted File");
+        System.out.println("8. Save Encrypted File");
         System.out.println("9. Input Ciphertext File");
-        System.out.println("10. Decrypt Ciphertext File");
+        System.out.println("10. Decrypt and Save Ciphertext File");
         System.out.println("0. Exit Program");
     }
 
@@ -57,14 +64,43 @@ public class Main {
     }
 
     public void displayMenu(){
-        System.out.println("");
-        mainMenu();
+        subMenu();
         userMenuInput = getNumberInput();
+
+        if (userMenuInput == 1) {
+            displayCipherMenu();
+        } else if (userMenuInput == 2) {
+            System.out.println("");
+            System.out.println("***You will still need to pick a Cipher before making changes, are you sure you want to continue?***");
+            System.out.println("To continue, press 2. To change your mind, press 1. To exit, press 0.");
+            int userSubMenuInput = getNumberInput();
+
+            if (userSubMenuInput == 1) {
+                displayCipherMenu();
+            } else if (userSubMenuInput == 2) {
+                displayMainMenu();
+            } else if (userSubMenuInput == 0) {
+                System.exit(0);
+            } else {
+                System.out.println("An error has occured. Please try again.");
+                System.exit(1);
+            }
+
+        } else if (userMenuInput == 0) {
+            System.exit(0);
+        } else {
+            System.out.println("An error has occurred. Please try again.");
+            System.exit(1);
+        }
+    }
+
+    public void displayMainMenu() {
+        mainMenu();
+        userMainMenuInput = getNumberInput();
         menuActions();
     }
 
     public void displayCipherMenu(){
-        System.out.println("");
         cipherMenu();
         userCipherInput = getNumberInput();
 
@@ -81,7 +117,7 @@ public class Main {
 
         System.out.println("");
         System.out.println("Cipher Selected. Now pick what you're going to do with it.");
-        displayMenu();
+        displayMainMenu();
     }
 
     public void editKey(){
@@ -175,7 +211,7 @@ public class Main {
 
     public void menuActions() {
 
-        switch (userMenuInput) {
+        switch (userMainMenuInput) {
             case 0: //exit
                 System.exit(0);
                 break;
@@ -184,40 +220,40 @@ public class Main {
                 break;
             case 2: //edit the key
                 editKey();
-                displayMenu();
+                displayMainMenu();
                 break;
             case 3: //display the key
                 displayKey();
-                displayMenu();
+                displayMainMenu();
                 break;
             case 4: //input plaintext file
                 enterFile();
-                displayMenu();
+                displayMainMenu();
                 break;
             case 5: //display prepared plaintext file
                 displayPreparedPlaintextFile();
-                displayMenu();
+                displayMainMenu();
                 break;
             case 6: //encrypt the file using the chosen cipher
                 encryptFile();
-                displayMenu();
+                displayMainMenu();
                 break;
             case 7: //display encrypted cipher output
                 displayCipherTextFile();
-                displayMenu();
+                displayMainMenu();
                 break;
             case 8: //save cipher text to file
                 saveFile(cipherOutput);
-                displayMenu();
+                displayMainMenu();
                 break;
             case 9: //input ciphertext file to decrypt
                 enterFile();
-                displayMenu();
+                displayMainMenu();
                 break;
             case 10: //decrypt ciphertext file
                 decryptFile();
                 saveFile(plainTextOutput);
-                displayMenu();
+                displayMainMenu();
                 break;
             default:
                 System.out.println("Please pick one of the displayed numbers. Your choice was not within the range permitted. If this is a program error, exit and try again.");
@@ -228,11 +264,11 @@ public class Main {
     public static void main(String[] args){
         Main main = new Main();
         main.displayMenu();
-        main.getInput();
+       /* main.getInput();
         main.menuActions();
         main.displayCipherMenu();
         main.getUserFileInput();
         main.getCipherInput();
-
+        */
     }
 }

@@ -9,19 +9,27 @@ public class Cipher {
         createFile(fileName);
         try (FileWriter write = new FileWriter(fileName)) {
             write.write(content);
-            System.out.println("Successfully wrote to the file. THIS IS A TEST, REMOVE THIS BEFORE SUBMISSION.");
         } catch (IOException error) {
             System.err.println("An Error has occurred: " + error.getMessage());
         }
     }
 
     public void createFile(String fileName) {
+        CleanText cleanText = new CleanText();
         try {
-            File file = new File(fileName);
-            if (file.createNewFile()) {
-                System.out.println("File created: " + fileName);
-            } else {
-                System.out.println("File already exists: no new file created. This process is still working as intended.");
+            System.out.println("Are you sure? ***This will overwrite any existing file contents.***");
+            System.out.println("Press 1 to continue, press 0 to exit.");
+            int userSelection = cleanText.getNumberInput();
+
+            if (userSelection == 1) {
+                File file = new File(fileName);
+                if (file.createNewFile()) {
+                    System.out.println("File created: " + fileName);
+                } else {
+                    System.out.println("File already exists: no new file created. This process is still working as intended.");
+                }
+            } else if (userSelection == 0) {
+                System.exit(0);
             }
         } catch (IOException error) {
             System.err.println("An Error has occurred: " + error.getMessage());

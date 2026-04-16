@@ -18,7 +18,6 @@ public class CaesarCipher extends Cipher {
     }
 
     public String decrypt(String fileOutput, int shift) {
-        System.out.println("THIS IS A TEST: REMOVE BEFORE SUBMISSION.");
         String plainTextOutput = encrypt(fileOutput, -shift); //does the same thing but shifts the opposite way, hence -shift, so gives the original input.
         return plainTextOutput;
     }

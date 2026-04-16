@@ -77,9 +77,13 @@ public class CleanText {
 
     public int getNumberInput(){
         getInput();
-        userNumberInput = Integer.parseInt(userInput.replaceAll("\\s", ""));
+        try {
+            userNumberInput = Integer.parseInt(userInput.replaceAll("\\s", ""));
+            return userNumberInput;
+        } catch (NumberFormatException error) {
+            System.err.println("An Error has occurred. Please try again.");
+            System.exit(1);
+        }
         return userNumberInput;
-
     }
-
 }
