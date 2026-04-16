@@ -12,6 +12,7 @@ public class Main {
     private Scanner input = new Scanner(System.in); //takes user's input
     private String userSaveFileName;
     CleanText cleanText = new CleanText();
+    CaesarCipher caesarCipher = new CaesarCipher();
 
 
 
@@ -141,11 +142,11 @@ public class Main {
         System.out.println("Here is the key in the file: ");
 
         if (userCipherChoice == 1){
-            cleanText.readFile("caesar-key.txt");
+            System.out.println(cleanText.readFile("caesar-key.txt"));
         } else if (userCipherChoice == 2){
-            cleanText.readFile("keyed-caesar-key.txt");
+            System.out.println(cleanText.readFile("keyed-caesar-key.txt"));
         } else if (userCipherChoice == 3){
-            cleanText.readFile("vigenere-key.txt");
+            System.out.println(cleanText.readFile("vigenere-key.txt"));
         } else {
             System.out.println("An error has occurred. Please try again.");
             System.exit(1);
@@ -165,10 +166,9 @@ public class Main {
         String fileOutput = cleanText.fileOutput();
 
         if (userCipherChoice == 1){
-            CaesarCipher cipher = new CaesarCipher();
             System.out.println("Please enter the number of spaces to shift your input: ");
             int shift = cleanText.getNumberInput();
-            cipherOutput = cipher.encrypt(fileOutput, shift);
+            cipherOutput = caesarCipher.encrypt(fileOutput, shift); //cipher, because caesar cipher is initialised above
         } else if (userCipherChoice == 2){
             //do the same for Keyed Caesar Cipher
         } else if (userCipherChoice == 3){
@@ -194,10 +194,7 @@ public class Main {
         String fileOutput = cleanText.fileOutput();
 
         if (userCipherChoice == 1){
-            CaesarCipher cipher = new CaesarCipher();
-            System.out.println("Please enter the shift of your file to decrypt: ");
-            int shift = cleanText.getNumberInput();
-            plainTextOutput = cipher.decrypt(fileOutput, shift);
+            plainTextOutput = caesarCipher.decrypt(fileOutput);
             System.out.println(plainTextOutput);
         } else if (userCipherChoice == 2){
             //do the same for Keyed Caesar Cipher
@@ -264,11 +261,11 @@ public class Main {
     public static void main(String[] args){
         Main main = new Main();
         main.displayMenu();
-       /* main.getInput();
+        main.getInput();
         main.menuActions();
         main.displayCipherMenu();
         main.getUserFileInput();
         main.getCipherInput();
-        */
+
     }
 }

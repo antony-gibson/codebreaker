@@ -1,7 +1,9 @@
 public class CaesarCipher extends Cipher {
 
+    public int cipherShift;
     public String encrypt(String fileOutput, int shift) {
 
+        cipherShift = shift; //stores shift value in variable
         String cipherOutput = "";
 
         for (int i = 0; i < fileOutput.length(); i++) {
@@ -17,8 +19,29 @@ public class CaesarCipher extends Cipher {
         return cipherOutput;
     }
 
-    public String decrypt(String fileOutput, int shift) {
-        String plainTextOutput = encrypt(fileOutput, -shift); //does the same thing but shifts the opposite way, hence -shift, so gives the original input.
+    public String decrypt(String fileOutput) {
+        CleanText cleanText = new CleanText();
+        int newShift = 0;
+
+        if (cipherShift == 0) {
+            System.out.println("Please enter the shift value.");
+            newShift = cleanText.getNumberInput();
+        } else if (cipherShift != 0) {
+            System.out.println("You encrypted the file with the shift value " + cipherShift);
+            System.out.println("To decrypt with this value, press 1. To input your own value, press 2. To exit, press 0.");
+            int userInput = cleanText.getNumberInput();
+
+            if (userInput == 1) {
+                newShift = cipherShift;
+            } else if (userInput == 2) {
+                System.out.println("Please enter the shift number.");
+                newShift = cleanText.getNumberInput();
+            } else if (userInput == 0) {
+                System.exit(0);
+            }
+        }
+
+        String plainTextOutput = encrypt(fileOutput, -newShift); //does the same thing but shifts the opposite way, hence -shift, so gives the original input.
         return plainTextOutput;
     }
 }
