@@ -11,9 +11,11 @@ public class Main {
     private String plainTextOutput;
     private Scanner input = new Scanner(System.in); //takes user's input
     private String userSaveFileName;
+    private String chosenFile;
+    private String cipherKeyFileName;
     CleanText cleanText = new CleanText();
     CaesarCipher caesarCipher = new CaesarCipher();
-
+    KeyedCaesarCipher keyedCaesarCipher = new KeyedCaesarCipher();
 
 
     public String getUserFileInput(){
@@ -64,34 +66,41 @@ public class Main {
         System.out.println("0. Exit Program");
     }
 
-    public void displayMenu(){
+    public void displayMenu() {
         subMenu();
         userMenuInput = getNumberInput();
 
-        if (userMenuInput == 1) {
-            displayCipherMenu();
-        } else if (userMenuInput == 2) {
-            System.out.println("");
-            System.out.println("***You will still need to pick a Cipher before making changes, are you sure you want to continue?***");
-            System.out.println("To continue, press 2. To change your mind, press 1. To exit, press 0.");
-            int userSubMenuInput = getNumberInput();
-
-            if (userSubMenuInput == 1) {
-                displayCipherMenu();
-            } else if (userSubMenuInput == 2) {
-                displayMainMenu();
-            } else if (userSubMenuInput == 0) {
+        switch (userMenuInput) {
+            case 0:
                 System.exit(0);
-            } else {
-                System.out.println("An error has occured. Please try again.");
-                System.exit(1);
-            }
+                break;
+            case 1:
+                displayCipherMenu();
+                break;
+            case 2:
+                System.out.println("");
+                System.out.println("***You will still need to pick a Cipher before making changes, are you sure you want to continue?***");
+                System.out.println("To continue, press 2. To change your mind, press 1. To exit, press 0.");
+                int userSubMenuInput = getNumberInput();
 
-        } else if (userMenuInput == 0) {
-            System.exit(0);
-        } else {
-            System.out.println("An error has occurred. Please try again.");
-            System.exit(1);
+                switch (userSubMenuInput) {
+                    case 0:
+                        System.exit(0);
+                        break;
+                    case 1:
+                        displayCipherMenu();
+                        break;
+                    case 2:
+                        displayMainMenu();
+                        break;
+                    default:
+                        System.err.println("An error has occurred in sub-menu. Please try again.");
+                        System.exit(1);
+                }
+            default:
+                System.err.println("An error has occurred. Please try again.");
+                System.exit(1);
+                break;
         }
     }
 
@@ -105,15 +114,28 @@ public class Main {
         cipherMenu();
         userCipherInput = getNumberInput();
 
-        if (userCipherInput == 0){
-            System.exit(0);
-        } else if (userCipherInput == 1 || userCipherInput == 2 || userCipherInput == 3) {
-            userCipherChoice = userCipherInput;
-        } else if (userCipherInput == 4) {
-            displayMenu();
-        } else {
-            System.out.println("An Error has occurred. Please try again.");
-            System.exit(1);
+        switch (userCipherInput) {
+            case 0:
+                System.exit(0);
+                break;
+            case 1:
+                userCipherChoice = 1;
+                cipherKeyFileName = "caesar-key.txt";
+                break;
+            case 2:
+                userCipherChoice = 2;
+                cipherKeyFileName = "keyed-caesar-key.txt";
+                break;
+            case 3:
+                userCipherChoice = 3;
+                cipherKeyFileName = "vigenere-key.txt";
+                break;
+            case 4:
+                displayMenu();
+                break;
+            default:
+                System.err.println("Something went wrong. Please try again.");
+                System.exit(1);
         }
 
         System.out.println("");
@@ -125,36 +147,16 @@ public class Main {
         Cipher cipher = new Cipher();
         System.out.println("Enter new key: ");
         userInput = getCipherInput();
-
-        if (userCipherChoice == 1){
-            cipher.writeToFile("caesar-key.txt", userInput);
-        } else if (userCipherChoice == 2){
-            cipher.writeToFile("keyed-caesar-key.txt", userInput);
-        } else if (userCipherChoice == 3){
-            cipher.writeToFile("vigenere-key.txt", userInput);
-        } else {
-            System.out.println("An error has occurred. Please try again.");
-            System.exit(1);
-        }
+        cipher.writeToFile(cipherKeyFileName, userInput);
     }
 
     public void displayKey() {
-        System.out.println("Here is the key in the file: ");
-
-        if (userCipherChoice == 1){
-            System.out.println(cleanText.readFile("caesar-key.txt"));
-        } else if (userCipherChoice == 2){
-            System.out.println(cleanText.readFile("keyed-caesar-key.txt"));
-        } else if (userCipherChoice == 3){
-            System.out.println(cleanText.readFile("vigenere-key.txt"));
-        } else {
-            System.out.println("An error has occurred. Please try again.");
-            System.exit(1);
-        }
+        System.out.println("Here is the file contents: ");
+        System.out.println(cleanText.readFile(cipherKeyFileName));
     }
 
     public void enterFile() {
-        cleanText.getFileContents();
+        chosenFile = cleanText.getFileContents();
         System.out.println("To continue, select another item from the menu.");
     }
 
@@ -163,19 +165,26 @@ public class Main {
     }
 
     public void encryptFile() {
-        String fileOutput = cleanText.fileOutput();
+        //chosenFile is declared at the top of Main
 
-        if (userCipherChoice == 1){
-            System.out.println("Please enter the number of spaces to shift your input: ");
-            int shift = cleanText.getNumberInput();
-            cipherOutput = caesarCipher.encrypt(fileOutput, shift); //cipher, because caesar cipher is initialised above
-        } else if (userCipherChoice == 2){
-            //do the same for Keyed Caesar Cipher
-        } else if (userCipherChoice == 3){
-            //same again for vigenere
-        } else {
-            System.out.println("An error has occurred. Please try again.");
-            System.exit(1);
+        switch (userCipherChoice) {
+            case 1:
+                String caesarFileContents = cleanText.readFile(cipherKeyFileName);
+                int caesarShift = cleanText.fileNumberInput(caesarFileContents);
+                cipherOutput = caesarCipher.encrypt(chosenFile, caesarShift);
+                break;
+            case 2:
+                String keyedFileContents = cleanText.readFile(cipherKeyFileName);
+                int keyedShift = cleanText.fileNumberInput(keyedFileContents);
+                String keyWord = cleanText.fileStringInput();
+                cipherOutput = keyedCaesarCipher.encrypt(keyWord, keyedShift, chosenFile);
+                break;
+            case 3:
+                //add in vigenere here
+                break;
+            default:
+                System.err.println("An error has occurred. Please try again.");
+                System.exit(1);
         }
     }
 
