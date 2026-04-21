@@ -202,16 +202,21 @@ public class Main {
     public void decryptFile() {
         String fileOutput = cleanText.fileOutput();
 
-        if (userCipherChoice == 1){
-            plainTextOutput = caesarCipher.decrypt(fileOutput);
-            System.out.println(plainTextOutput);
-        } else if (userCipherChoice == 2){
-            //do the same for Keyed Caesar Cipher
-        } else if (userCipherChoice == 3){
-            //same again for vigenere
-        } else {
-            System.out.println("An error has occurred. Please try again.");
-            System.exit(1);
+        switch (userCipherChoice) {
+            case 1:
+                plainTextOutput = caesarCipher.decrypt(fileOutput);
+                System.out.println(plainTextOutput);
+                break;
+            case 2:
+                //add in keyed here
+                break;
+            case 3:
+                //add in vigenere here
+                break;
+            default:
+                System.err.println("An error has occurred. Please try again.");
+                System.exit(1);
+                break;
         }
     }
 
