@@ -1,40 +1,14 @@
-import java.util.Scanner;
 
 public class Main {
-    private int userMenuInput;
     private int userMainMenuInput;
-    private int userCipherInput;
     private int userCipherChoice;
-    private String userInput;
     private String cipherOutput;
     private String plainTextOutput;
-    private String userSaveFileName;
-    private String chosenFile;
+    private String chosenTextFile;
     private String cipherKeyFileName;
-    CleanText cleanText = new CleanText();
     CaesarCipher caesarCipher = new CaesarCipher();
     KeyedCaesarCipher keyedCaesarCipher = new KeyedCaesarCipher();
 
-
-    public String getUserFileInput(){
-        String userInput = cleanText.getFileContents();
-        return userInput;
-    }
-
-    public String getInput(){
-        String userInput = cleanText.getInput();
-        return userInput;
-    }
-
-    public String getCipherInput(){
-        String userCipherInput = cleanText.getCipherInput();
-        return userCipherInput;
-    }
-
-    public int getNumberInput(){
-        int userNumberInput = cleanText.getNumberInput();
-        return userNumberInput;
-    }
 
     public void subMenu(){
         System.out.println("1. Pick your Cipher");
@@ -66,7 +40,7 @@ public class Main {
 
     public void displayMenu() {
         subMenu();
-        userMenuInput = getNumberInput();
+        int userMenuInput = CleanText.getNumberInput();
 
         switch (userMenuInput) {
             case 0:
@@ -79,7 +53,7 @@ public class Main {
                 System.out.println("");
                 System.out.println("***You will still need to pick a Cipher before making changes, are you sure you want to continue?***");
                 System.out.println("To continue, press 2. To change your mind, press 1. To exit, press 0.");
-                int userSubMenuInput = getNumberInput();
+                int userSubMenuInput = CleanText.getNumberInput();
 
                 switch (userSubMenuInput) {
                     case 0:
@@ -104,13 +78,13 @@ public class Main {
 
     public void displayMainMenu() {
         mainMenu();
-        userMainMenuInput = getNumberInput();
+        userMainMenuInput = CleanText.getNumberInput();
         menuActions();
     }
 
     public void displayCipherMenu(){
         cipherMenu();
-        userCipherInput = getNumberInput();
+        int userCipherInput = CleanText.getNumberInput();
 
         switch (userCipherInput) {
             case 0:
@@ -144,42 +118,41 @@ public class Main {
     public void editKey(){
         Cipher cipher = new Cipher();
         System.out.println("Enter new key: ");
-        userInput = cleanText.getKeyInput();
+        String userInput = CleanText.getKeyInput();
         cipher.writeToFile(cipherKeyFileName, userInput);
     }
 
     public void displayKey() {
         System.out.println("Here is the file contents: ");
-        System.out.println(cleanText.readFile(cipherKeyFileName));
+        System.out.println(CleanText.readFile(cipherKeyFileName));
     }
 
     public void enterFile() {
-        chosenFile = cleanText.getFileContents();
+        chosenTextFile = CleanText.getFileContents();
         System.out.println("To continue, select another item from the menu.");
     }
 
     public void displayPreparedPlaintextFile() {
         Cipher cipher = new Cipher();
-        String preparedPlainText = cleanText.fileStringInput(chosenFile);
+        String preparedPlainText = CleanText.fileStringInput(chosenTextFile);
         cipher.writeToFile("prep.txt", preparedPlainText);
-        String preppedOutput = cleanText.readFile("prep.txt");
+        String preppedOutput = CleanText.readFile("prep.txt");
         System.out.println(preppedOutput);
     }
 
     public void encryptFile() {
-        //chosenFile is declared at the top of Main
+        //chosenTextFile is declared at the top of Main
 
         switch (userCipherChoice) {
             case 1:
-                String caesarFileContents = cleanText.readFile(cipherKeyFileName);
-                int caesarShift = cleanText.fileNumberInput(caesarFileContents);
-                cipherOutput = caesarCipher.encrypt(chosenFile, caesarShift);
+                int shiftValue = CleanText.fileNumberInput(CleanText.readFile("caesar-key.txt"));
+                cipherOutput = caesarCipher.encrypt(chosenTextFile, shiftValue);
                 break;
             case 2:
-                String keyedFileContents = cleanText.readFile(cipherKeyFileName);
-                int keyedShift = cleanText.fileNumberInput(keyedFileContents);
-                String keyWord = cleanText.fileStringInput(keyedFileContents);
-                cipherOutput = keyedCaesarCipher.encrypt(keyWord, keyedShift, chosenFile); //keyWord and keyedShift come from keyed-caesar-key.txt (in editKey()), and chosenFile is from enterFile() which is called in case 4 of main menu: inputting a plaintext file
+                String keyedFileContents = CleanText.readFile(cipherKeyFileName);
+                int keyedShift = CleanText.fileNumberInput(keyedFileContents);
+                String keyWord = CleanText.fileStringInput(keyedFileContents);
+                cipherOutput = keyedCaesarCipher.encrypt(keyWord, keyedShift, chosenTextFile);
                 break;
             case 3:
                 //add in vigenere here
@@ -193,7 +166,7 @@ public class Main {
     public void saveFile(String contentsSaved){
         Cipher cipher = new Cipher();
         System.out.println("Please enter the filename to save to: ");
-        userSaveFileName = cleanText.getInput();
+        String userSaveFileName = CleanText.getInput();
         cipher.writeToFile(userSaveFileName, contentsSaved);
     }
 
@@ -202,7 +175,7 @@ public class Main {
     }
 
     public void decryptFile() {
-        String fileOutput = cleanText.fileOutput();
+        String fileOutput = CleanText.fileOutput();
 
         switch (userCipherChoice) {
             case 1:
@@ -277,11 +250,5 @@ public class Main {
     public static void main(String[] args){
         Main main = new Main();
         main.displayMenu();
-        main.getInput();
-        main.menuActions();
-        main.displayCipherMenu();
-        main.getUserFileInput();
-        main.getCipherInput();
-
     }
 }

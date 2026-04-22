@@ -1,16 +1,14 @@
 public class CaesarCipher extends Cipher {
 
-    public int cipherShift;
-    public String encrypt(String fileOutput, int shift) {
+    public String encrypt(String fileOutput, int shiftValue) {
 
-        cipherShift = shift; //stores shift value in variable
         String cipherOutput = "";
 
         for (int i = 0; i < fileOutput.length(); i++) {
             char charInput = fileOutput.charAt(i);
 
             char alphabetPosition = (char) (charInput - 'A'); //subtracts ASCII value of 'A' from input, to give the position within the alphabet (from 0-25).
-            char shiftedAlphabetPosition = (char) (alphabetPosition + shift + 26); //adds the shift value to the position in the alphabet, then adds 26 to account for adding negative numbers (negatives are a left shift, positives are a right shift).
+            char shiftedAlphabetPosition = (char) (alphabetPosition + shiftValue + 26); //adds the shift value to the position in the alphabet, then adds 26 to account for adding negative numbers (negatives are a left shift, positives are a right shift).
             char encrypted = (char) (shiftedAlphabetPosition % 26 + 'A'); //modulo by 26 to ensure values are between 0 and 26, and then add back on the ASCII value of 'A' to return the ASCII value of the new shifted letter.
 
             cipherOutput += encrypted;
@@ -20,32 +18,15 @@ public class CaesarCipher extends Cipher {
     }
 
     public String decrypt(String fileOutput) {
-        CleanText cleanText = new CleanText();
-        int newShift = 0;
 
-        if (cipherShift == 0) {
-            System.out.println("Please enter the shift value.");
-            newShift = cleanText.getNumberInput();
-        } else if (cipherShift != 0) {
-            System.out.println("You encrypted the file with the shift value " + cipherShift);
-            System.out.println("To decrypt with this value, press 1. To input your own value, press 2. To exit, press 0.");
-            int userInput = cleanText.getNumberInput();
+        int shiftValue = CleanText.fileNumberInput(CleanText.readFile("caesar-key.txt"));
 
-            switch (userInput) {
-                case 0:
-                    System.exit(0);
-                    break;
-                case 1:
-                    newShift = cipherShift;
-                    break;
-                case 2:
-                    System.out.println("Please enter the shift value.");
-                    newShift = cleanText.getNumberInput();
-                    break;
-            }
+        if (shiftValue == 0) {
+            System.out.println("Current shift value is 0. If this is correct, type 0. If you would like a different shift value, type the shift value you desire.");
+            shiftValue = CleanText.getNumberInput();
         }
 
-        String plainTextOutput = encrypt(fileOutput, -newShift); //does the same thing but shifts the opposite way, hence -shift, so gives the original input.
+        String plainTextOutput = encrypt(fileOutput, -shiftValue); //does the same thing but shifts the opposite way, hence -shift, so gives the original input.
         return plainTextOutput;
     }
 }
