@@ -19,14 +19,13 @@ public class CaesarCipher extends Cipher {
 
     public String decrypt(String fileOutput) {
 
-        int shiftValue = CleanText.fileNumberInput(CleanText.readFile("caesar-key.txt"));
+        int shiftValue = CleanText.fileNumberInput(readFile("caesar-key.txt"));
 
         if (shiftValue == 0) {
             System.out.println("Current shift value is 0. If this is correct, type 0. If you would like a different shift value, type the shift value you desire.");
             shiftValue = CleanText.getNumberInput();
         }
 
-        String plainTextOutput = encrypt(fileOutput, -shiftValue); //does the same thing but shifts the opposite way, hence -shift, so gives the original input.
-        return plainTextOutput;
+        return encrypt(fileOutput, -shiftValue); //does the same thing but shifts the opposite way, hence -shift, so gives the original input.
     }
 }

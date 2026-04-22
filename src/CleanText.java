@@ -5,29 +5,14 @@ import java.io.IOException;
 public class CleanText {
     private static String userInput;
     private static int userNumberInput;
-    private static Scanner input = new Scanner(System.in); //takes user's input
     private static String cleanFileOutput;
-
-    public static String readFile(String fileName) {
-        File file = new File(fileName);
-        String fileContents = "";
-        try (Scanner reader = new Scanner(file)) {
-            while (reader.hasNextLine()) {
-                String line = reader.nextLine();
-                line = line.trim().toUpperCase();
-                fileContents += line;
-            }
-        } catch (IOException error) {
-            System.err.println("An Error has occurred: " + error.getMessage());
-        }
-        return fileContents;
-    }
+    private static Scanner input = new Scanner(System.in); //takes user's input
 
     public static String getFileContents(){
         System.out.println("Please enter the file name: ");
         String userFileNameInput = input.nextLine();
         fileCheck(userFileNameInput);
-        String fileOutput = readFile(userFileNameInput);
+        String fileOutput = Cipher.readFile(userFileNameInput);
         cleanFileOutput = fileStringInput(fileOutput);
         return cleanFileOutput;
     }
@@ -56,12 +41,12 @@ public class CleanText {
         String onlyNumbers = stripped.replaceAll("[^0-9]", "");
 
         if (onlyNumbers.isEmpty()) {
-            System.err.println("Error in file number input: only numbers is empty.");
+            System.err.println("No number specified.");
             return -1;
         }
 
-        int onlyNumberOutput = Integer.parseInt(onlyNumbers);
-        return onlyNumberOutput;
+        return Integer.parseInt(onlyNumbers);
+
     }
 
     public static String getInput(){

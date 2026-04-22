@@ -134,7 +134,7 @@ public class Main {
 
     public void displayKey() {
         System.out.println("Here is the file contents: ");
-        System.out.println(CleanText.readFile(cipherKeyFileName));
+        System.out.println(Cipher.readFile(cipherKeyFileName));
     }
 
     public void enterFile() {
@@ -146,7 +146,7 @@ public class Main {
         Cipher cipher = new Cipher();
         String preparedPlainText = CleanText.fileStringInput(chosenTextFile);
         cipher.writeToFile("prep.txt", preparedPlainText);
-        String preppedOutput = CleanText.readFile("prep.txt");
+        String preppedOutput = Cipher.readFile("prep.txt");
         System.out.println(preppedOutput);
     }
 
@@ -155,11 +155,11 @@ public class Main {
 
         switch (userCipherChoice) {
             case 1:
-                int shiftValue = CleanText.fileNumberInput(CleanText.readFile(cipherKeyFileName));
+                int shiftValue = CleanText.fileNumberInput(Cipher.readFile(cipherKeyFileName));
                 cipherOutput = caesarCipher.encrypt(chosenTextFile, shiftValue);
                 break;
             case 2:
-                String keyedFileContents = CleanText.readFile(cipherKeyFileName);
+                String keyedFileContents = Cipher.readFile(cipherKeyFileName);
                 int keyedShift = CleanText.fileNumberInput(keyedFileContents);
                 String keyWord = CleanText.fileStringInput(keyedFileContents);
                 cipherOutput = keyedCaesarCipher.encrypt(keyWord, keyedShift, chosenTextFile);
