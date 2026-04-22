@@ -6,10 +6,8 @@ public class Main {
     private int userCipherInput;
     private int userCipherChoice;
     private String userInput;
-    private String plaintextFileName;
     private String cipherOutput;
     private String plainTextOutput;
-    private Scanner input = new Scanner(System.in); //takes user's input
     private String userSaveFileName;
     private String chosenFile;
     private String cipherKeyFileName;
@@ -146,7 +144,7 @@ public class Main {
     public void editKey(){
         Cipher cipher = new Cipher();
         System.out.println("Enter new key: ");
-        userInput = getCipherInput();
+        userInput = cleanText.getKeyInput();
         cipher.writeToFile(cipherKeyFileName, userInput);
     }
 
@@ -161,7 +159,11 @@ public class Main {
     }
 
     public void displayPreparedPlaintextFile() {
-        System.out.println(cleanText.fileStringInput());
+        Cipher cipher = new Cipher();
+        String preparedPlainText = cleanText.fileStringInput(chosenFile);
+        cipher.writeToFile("prep.txt", preparedPlainText);
+        String preppedOutput = cleanText.readFile("prep.txt");
+        System.out.println(preppedOutput);
     }
 
     public void encryptFile() {
@@ -176,8 +178,8 @@ public class Main {
             case 2:
                 String keyedFileContents = cleanText.readFile(cipherKeyFileName);
                 int keyedShift = cleanText.fileNumberInput(keyedFileContents);
-                String keyWord = cleanText.fileStringInput();
-                cipherOutput = keyedCaesarCipher.encrypt(keyWord, keyedShift, chosenFile);
+                String keyWord = cleanText.fileStringInput(keyedFileContents);
+                cipherOutput = keyedCaesarCipher.encrypt(keyWord, keyedShift, chosenFile); //keyWord and keyedShift come from keyed-caesar-key.txt (in editKey()), and chosenFile is from enterFile() which is called in case 4 of main menu: inputting a plaintext file
                 break;
             case 3:
                 //add in vigenere here
@@ -191,7 +193,7 @@ public class Main {
     public void saveFile(String contentsSaved){
         Cipher cipher = new Cipher();
         System.out.println("Please enter the filename to save to: ");
-        userSaveFileName = input.nextLine();
+        userSaveFileName = cleanText.getInput();
         cipher.writeToFile(userSaveFileName, contentsSaved);
     }
 

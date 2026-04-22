@@ -8,9 +8,7 @@ public class CleanText {
     private int userNumberInput;
     private Scanner input = new Scanner(System.in); //takes user's input
     private String userFileNameInput;
-    private String strippedUserInput;
-    private String onlyTextInput;
-    private int onlyNumberInput;
+    private int onlyNumberOutput;
     private String line;
     private String fileOutput;
     private String cleanFileOutput;
@@ -35,7 +33,7 @@ public class CleanText {
         userFileNameInput = input.nextLine();
         fileCheck(userFileNameInput);
         fileOutput = readFile(userFileNameInput);
-        cleanFileOutput = fileStringInput();
+        cleanFileOutput = fileStringInput(fileOutput);
         return cleanFileOutput;
     }
 
@@ -52,24 +50,39 @@ public class CleanText {
         return cleanFileOutput;
     }
 
-    public String fileStringInput(){
-        strippedUserInput = fileOutput.replaceAll("\\s", ""); //double slash allows all whitespace to be removed. It doesn't work without the double slash - if it ain't broke don't fix it.
-        onlyTextInput = strippedUserInput.replaceAll("[^A-Z]", ""); //^ is 'not', so anything that isn't a letter gets removed
-        return onlyTextInput;
+    public String fileStringInput(String fileInput){
+        String stripped = fileInput.replaceAll("\\s", ""); //double slash allows all whitespace to be removed. It doesn't work without the double slash - if it ain't broke don't fix it.
+        String onlyText = stripped.replaceAll("[^A-Z]", ""); //^ is 'not', so anything that isn't a letter gets removed
+        return onlyText;
     }
 
-    public int fileNumberInput(String fileOutput){
-        onlyNumberInput= Integer.parseInt(fileOutput.replaceAll("\\s", "")); //double slash allows all whitespace to be removed. It doesn't work without the double slash - if it ain't broke don't fix it.
-        return onlyNumberInput;
+    public int fileNumberInput(String fileInput){
+        String stripped = fileInput.replaceAll("\\s", ""); //double slash allows all whitespace to be removed. It doesn't work without the double slash - if it ain't broke don't fix it.
+        String onlyNumbers = stripped.replaceAll("[^0-9]", "");
+
+        if (onlyNumbers.isEmpty()) {
+            System.err.println("Error in file number input: only numbers is empty.");
+            return -1;
+        }
+
+        onlyNumberOutput = Integer.parseInt(onlyNumbers);
+        return onlyNumberOutput;
     }
 
     public String getInput(){
-        userInput = input.nextLine().trim().toUpperCase();
+        userInput = input.nextLine();
+        return userInput;
+    }
+
+    public String getKeyInput() {
+        String userInput = getInput();
+        userInput = userInput.trim().toUpperCase();
         return userInput;
     }
 
     public String getCipherInput(){
         getInput();
+        newUserInput = userInput.trim().toUpperCase();
         newUserInput = userInput.replaceAll("\\s", "");
         newUserInput = userInput.replaceAll("[^A-Z]", "");
         return newUserInput;
@@ -77,6 +90,7 @@ public class CleanText {
 
     public int getNumberInput(){
         getInput();
+        String newInput = userInput.trim().toUpperCase();
         try {
             userNumberInput = Integer.parseInt(userInput.replaceAll("\\s", ""));
             return userNumberInput;

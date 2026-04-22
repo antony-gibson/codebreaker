@@ -31,13 +31,17 @@ public class CaesarCipher extends Cipher {
             System.out.println("To decrypt with this value, press 1. To input your own value, press 2. To exit, press 0.");
             int userInput = cleanText.getNumberInput();
 
-            if (userInput == 1) {
-                newShift = cipherShift;
-            } else if (userInput == 2) {
-                System.out.println("Please enter the shift number.");
-                newShift = cleanText.getNumberInput();
-            } else if (userInput == 0) {
-                System.exit(0);
+            switch (userInput) {
+                case 0:
+                    System.exit(0);
+                    break;
+                case 1:
+                    newShift = cipherShift;
+                    break;
+                case 2:
+                    System.out.println("Please enter the shift value.");
+                    newShift = cleanText.getNumberInput();
+                    break;
             }
         }
 
