@@ -1,3 +1,4 @@
+import java.io.File;
 
 public class Main {
     private int userMainMenuInput;
@@ -119,7 +120,16 @@ public class Main {
         Cipher cipher = new Cipher();
         System.out.println("Enter new key: ");
         String userInput = CleanText.getKeyInput();
-        cipher.writeToFile(cipherKeyFileName, userInput);
+
+        System.out.println("Are you sure? ***This will overwrite any existing file contents.***");
+        System.out.println("Press 1 to continue, press 0 to go back.");
+        int userSelection = CleanText.getNumberInput();
+
+        if (userSelection == 1) {
+            cipher.writeToFile(cipherKeyFileName, userInput);
+        } else if (userSelection == 0) {
+            displayMainMenu();
+        }
     }
 
     public void displayKey() {
@@ -167,7 +177,16 @@ public class Main {
         Cipher cipher = new Cipher();
         System.out.println("Please enter the filename to save to: ");
         String userSaveFileName = CleanText.getInput();
-        cipher.writeToFile(userSaveFileName, contentsSaved);
+
+        System.out.println("***This will overwrite any existing file contents.***");
+        System.out.println("Press 1 to continue, press 0 to go back.");
+        int userSelection = CleanText.getNumberInput();
+
+        if (userSelection == 1) {
+            cipher.writeToFile(userSaveFileName, contentsSaved);
+        } else if (userSelection == 0) {
+            displayMainMenu();
+        }
     }
 
     public void displayCipherTextFile() {

@@ -15,19 +15,11 @@ public class Cipher {
 
     public void createFile(String fileName) {
         try {
-            System.out.println("Are you sure? ***This will overwrite any existing file contents.***");
-            System.out.println("Press 1 to continue, press 0 to exit.");
-            int userSelection = CleanText.getNumberInput();
-
-            if (userSelection == 1) {
-                File file = new File(fileName);
-                if (file.createNewFile()) {
-                    System.out.println("File created: " + fileName);
-                } else {
-                    System.out.println("File already exists: no new file created. This process is still working as intended.");
-                }
-            } else if (userSelection == 0) {
-                System.exit(0);
+            File file = new File(fileName);
+            if (file.createNewFile()) {
+                System.out.println("File created: " + fileName);
+            } else {
+                System.out.println("File already exists: no new file created. This process is still working as intended.");
             }
         } catch (IOException error) {
             System.err.println("An Error has occurred: " + error.getMessage());
