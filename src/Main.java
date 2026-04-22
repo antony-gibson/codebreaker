@@ -155,7 +155,7 @@ public class Main {
 
         switch (userCipherChoice) {
             case 1:
-                int shiftValue = CleanText.fileNumberInput(CleanText.readFile("caesar-key.txt"));
+                int shiftValue = CleanText.fileNumberInput(CleanText.readFile(cipherKeyFileName));
                 cipherOutput = caesarCipher.encrypt(chosenTextFile, shiftValue);
                 break;
             case 2:
