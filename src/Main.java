@@ -202,7 +202,11 @@ public class Main {
                 System.out.println(plainTextOutput);
                 break;
             case 2:
-                //add in keyed here
+                String keyedFileContents = Cipher.readFile(cipherKeyFileName);
+                int keyedShift = CleanText.fileNumberInput(keyedFileContents);
+                String keyWord = CleanText.fileStringInput(keyedFileContents);
+                plainTextOutput = keyedCaesarCipher.decrypt(keyWord, keyedShift, fileOutput);
+                System.out.println(plainTextOutput);
                 break;
             case 3:
                 //add in vigenere here
