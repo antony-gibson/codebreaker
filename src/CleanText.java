@@ -32,8 +32,7 @@ public class CleanText {
 
     public static String fileStringInput(String fileInput){
         String stripped = fileInput.replaceAll("\\s", ""); //double slash allows all whitespace to be removed. It doesn't work without the double slash - if it ain't broke don't fix it.
-        String onlyText = stripped.replaceAll("[^A-Z]", ""); //^ is 'not', so anything that isn't a letter gets removed
-        return onlyText;
+        return stripped.replaceAll("[^A-Z]", ""); //^ is 'not', so anything that isn't a letter gets removed
     }
 
     public static int fileNumberInput(String fileInput){

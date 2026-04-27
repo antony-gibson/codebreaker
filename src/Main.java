@@ -9,7 +9,7 @@ public class Main {
     private String cipherKeyFileName;
     CaesarCipher caesarCipher = new CaesarCipher();
     KeyedCaesarCipher keyedCaesarCipher = new KeyedCaesarCipher();
-
+    VigenereCipher vigenereCipher = new VigenereCipher();
 
     public void subMenu(){
         System.out.println("1. Pick your Cipher");
@@ -117,7 +117,6 @@ public class Main {
     }
 
     public void editKey(){
-        Cipher cipher = new Cipher();
         System.out.println("Enter new key: ");
         String userInput = CleanText.getKeyInput();
 
@@ -126,7 +125,7 @@ public class Main {
         int userSelection = CleanText.getNumberInput();
 
         if (userSelection == 1) {
-            cipher.writeToFile(cipherKeyFileName, userInput);
+            Cipher.writeToFile(cipherKeyFileName, userInput);
         } else if (userSelection == 0) {
             displayMainMenu();
         }
@@ -143,9 +142,8 @@ public class Main {
     }
 
     public void displayPreparedPlaintextFile() {
-        Cipher cipher = new Cipher();
         String preparedPlainText = CleanText.fileStringInput(chosenTextFile);
-        cipher.writeToFile("prep.txt", preparedPlainText);
+        Cipher.writeToFile("prep.txt", preparedPlainText);
         String preppedOutput = Cipher.readFile("prep.txt");
         System.out.println(preppedOutput);
     }
@@ -161,11 +159,12 @@ public class Main {
             case 2:
                 String keyedFileContents = Cipher.readFile(cipherKeyFileName);
                 int keyedShift = CleanText.fileNumberInput(keyedFileContents);
-                String keyWord = CleanText.fileStringInput(keyedFileContents);
-                cipherOutput = keyedCaesarCipher.encrypt(keyWord, keyedShift, chosenTextFile);
+                String keyedCaesarKeyWord = CleanText.fileStringInput(keyedFileContents);
+                cipherOutput = keyedCaesarCipher.encrypt(keyedCaesarKeyWord, keyedShift, chosenTextFile);
                 break;
             case 3:
-                //add in vigenere here
+                String vigenereKeyWord = CleanText.fileStringInput(Cipher.readFile(cipherKeyFileName));
+                cipherOutput = vigenereCipher.encrypt(chosenTextFile, vigenereKeyWord);
                 break;
             default:
                 System.err.println("An error has occurred. Please try again.");
@@ -174,7 +173,6 @@ public class Main {
     }
 
     public void saveFile(String contentsSaved){
-        Cipher cipher = new Cipher();
         System.out.println("Please enter the filename to save to: ");
         String userSaveFileName = CleanText.getInput();
 
@@ -183,7 +181,7 @@ public class Main {
         int userSelection = CleanText.getNumberInput();
 
         if (userSelection == 1) {
-            cipher.writeToFile(userSaveFileName, contentsSaved);
+            Cipher.writeToFile(userSaveFileName, contentsSaved);
         } else if (userSelection == 0) {
             displayMainMenu();
         }

@@ -5,14 +5,16 @@ import java.util.Scanner;
 
 public class Cipher {
 
+
     public static String readFile(String fileName) {
         File file = new File(fileName); //new File object
-        String fileContents = ""; //file contents variable initialised as empty
+        String fileContents = "";
+        StringBuilder fileContentString = new StringBuilder(fileContents);
         try (Scanner reader = new Scanner(file)) { //new Scanner object called on the File object
             while (reader.hasNextLine()) { //'while there is another line'
                 String line = reader.nextLine(); //contents of this line is stored in variable called line
                 line = line.trim().toUpperCase(); //line contents are made uppercase and spaces are stripped
-                fileContents += line; //line contents are appended to file contents variable
+                fileContentString.append(line); //line contents are appended to file contents variable
             }
         } catch (IOException error) {
             System.err.println("An Error has occurred: " + error.getMessage());
