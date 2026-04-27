@@ -8,8 +8,8 @@ public class Cipher {
 
     public static String readFile(String fileName) {
         File file = new File(fileName); //new File object
-        String fileContents = "";
-        StringBuilder fileContentString = new StringBuilder(fileContents);
+        StringBuilder fileContentString = new StringBuilder();
+
         try (Scanner reader = new Scanner(file)) { //new Scanner object called on the File object
             while (reader.hasNextLine()) { //'while there is another line'
                 String line = reader.nextLine(); //contents of this line is stored in variable called line
@@ -19,7 +19,7 @@ public class Cipher {
         } catch (IOException error) {
             System.err.println("An Error has occurred: " + error.getMessage());
         }
-        return fileContents;
+        return fileContentString.toString();
     }
 
     public static void writeToFile(String fileName, String content) {

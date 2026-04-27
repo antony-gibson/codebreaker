@@ -53,13 +53,10 @@ public class Main {
             case 2:
                 System.out.println("");
                 System.out.println("***You will still need to pick a Cipher before making changes, are you sure you want to continue?***");
-                System.out.println("To continue, press 2. To change your mind, press 1. To exit, press 0.");
+                System.out.println("To continue, press 2. To change your mind, press 1.");
                 int userSubMenuInput = CleanText.getNumberInput();
 
                 switch (userSubMenuInput) {
-                    case 0:
-                        System.exit(0);
-                        break;
                     case 1:
                         displayCipherMenu();
                         break;
@@ -121,7 +118,7 @@ public class Main {
         String userInput = CleanText.getKeyInput();
 
         System.out.println("Are you sure? ***This will overwrite any existing file contents.***");
-        System.out.println("Press 1 to continue, press 0 to go back.");
+        System.out.println("Press 1 to save, press 0 to go back.");
         int userSelection = CleanText.getNumberInput();
 
         if (userSelection == 1) {
@@ -164,7 +161,12 @@ public class Main {
                 break;
             case 3:
                 String vigenereKeyWord = CleanText.fileStringInput(Cipher.readFile(cipherKeyFileName));
-                cipherOutput = vigenereCipher.encrypt(chosenTextFile, vigenereKeyWord);
+                if (vigenereKeyWord.length() == 0) {
+                    System.err.println("Please enter a key word in the edit key section of the menu.");
+                    displayMainMenu();
+                } else {
+                    cipherOutput = vigenereCipher.encrypt(chosenTextFile, vigenereKeyWord);
+                }
                 break;
             default:
                 System.err.println("An error has occurred. Please try again.");
@@ -177,7 +179,7 @@ public class Main {
         String userSaveFileName = CleanText.getInput();
 
         System.out.println("***This will overwrite any existing file contents.***");
-        System.out.println("Press 1 to continue, press 0 to go back.");
+        System.out.println("Press 1 to save, press 0 to go back.");
         int userSelection = CleanText.getNumberInput();
 
         if (userSelection == 1) {
@@ -196,7 +198,8 @@ public class Main {
 
         switch (userCipherChoice) {
             case 1:
-                plainTextOutput = caesarCipher.decrypt(fileOutput);
+                int shiftValue = CleanText.fileNumberInput(Cipher.readFile(cipherKeyFileName));
+                plainTextOutput = caesarCipher.decrypt(fileOutput, shiftValue);
                 System.out.println(plainTextOutput);
                 break;
             case 2:
@@ -207,7 +210,14 @@ public class Main {
                 System.out.println(plainTextOutput);
                 break;
             case 3:
-                //add in vigenere here
+                String vigenereKeyWord = CleanText.fileStringInput(Cipher.readFile(cipherKeyFileName));
+                if (vigenereKeyWord.length() == 0) {
+                    System.err.println("Please enter a key word in the edit key section of the menu.");
+                    displayMainMenu();
+                } else {
+                    plainTextOutput = vigenereCipher.decrypt(fileOutput, vigenereKeyWord);
+                }
+                System.out.println(plainTextOutput);
                 break;
             default:
                 System.err.println("An error has occurred. Please try again.");
