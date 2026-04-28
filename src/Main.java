@@ -1,4 +1,3 @@
-import java.io.File;
 
 public class Main {
     private int userMainMenuInput;
@@ -161,7 +160,7 @@ public class Main {
                 break;
             case 3:
                 String vigenereKeyWord = CleanText.fileStringInput(Cipher.readFile(cipherKeyFileName));
-                if (vigenereKeyWord.length() == 0) {
+                if (vigenereKeyWord.isEmpty()) {
                     System.err.println("Please enter a key word in the edit key section of the menu.");
                     displayMainMenu();
                 } else {
@@ -211,7 +210,7 @@ public class Main {
                 break;
             case 3:
                 String vigenereKeyWord = CleanText.fileStringInput(Cipher.readFile(cipherKeyFileName));
-                if (vigenereKeyWord.length() == 0) {
+                if (vigenereKeyWord.isEmpty()) {
                     System.err.println("Please enter a key word in the edit key section of the menu.");
                     displayMainMenu();
                 } else {
@@ -273,7 +272,8 @@ public class Main {
                 displayMainMenu();
                 break;
             default:
-                System.out.println("Please pick one of the displayed numbers. Your choice was not within the range permitted. If this is a program error, exit and try again.");
+                System.err.println("Please pick one of the displayed numbers. Your choice was not within the range permitted. If this is a program error, try again.");
+                displayMainMenu();
         }
     }
 

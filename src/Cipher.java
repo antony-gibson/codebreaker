@@ -10,14 +10,16 @@ public class Cipher {
         File file = new File(fileName); //new File object
         StringBuilder fileContentString = new StringBuilder();
 
-        try (Scanner reader = new Scanner(file)) { //new Scanner object called on the File object
-            while (reader.hasNextLine()) { //'while there is another line'
-                String line = reader.nextLine(); //contents of this line is stored in variable called line
+        try (Scanner reader = new Scanner(file)) {
+            while (reader.hasNextLine()) {
+                String line = reader.nextLine(); //contents of current line stored in line variable
                 line = line.trim().toUpperCase(); //line contents are made uppercase and spaces are stripped
-                fileContentString.append(line); //line contents are appended to file contents variable
+                fileContentString.append(line); //line contents are appended to file content string
             }
         } catch (IOException error) {
             System.err.println("An Error has occurred: " + error.getMessage());
+            System.err.println("Please try again.");
+            System.exit(1);
         }
         return fileContentString.toString();
     }
@@ -28,6 +30,8 @@ public class Cipher {
             write.write(content); //FileWriter object writes content (passed into method) to the file
         } catch (IOException error) {
             System.err.println("An Error has occurred: " + error.getMessage());
+            System.err.println("Please try again.");
+            System.exit(1);
         }
     }
 
@@ -41,6 +45,8 @@ public class Cipher {
             }
         } catch (IOException error) {
             System.err.println("An Error has occurred: " + error.getMessage());
+            System.err.println("Please try again.");
+            System.exit(1);
         }
     }
 }

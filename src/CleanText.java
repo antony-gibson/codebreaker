@@ -21,7 +21,7 @@ public class CleanText {
         File file = new File(userFileNameInput);
 
         while (!userFileNameInput.endsWith(".txt") && !file.exists() && !file.canRead()) {
-            System.out.println("An error has occured. Please try again.");
+            System.err.println("File error. Program could not access file, please try again.");
             System.exit(1);
         }
     }

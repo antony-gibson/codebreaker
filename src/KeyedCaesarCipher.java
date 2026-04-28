@@ -5,6 +5,7 @@ public class KeyedCaesarCipher extends Cipher{
     public String createKeyedAlphabet (String keyWord) {
         String keyedAlphabet = "";
         StringBuilder keyedAlphabetString = new StringBuilder(keyedAlphabet);
+
         //removes duplicate letters within user-specified key word
         for (int i = 0; i < keyWord.length(); i++) {
             char keyWordChar = keyWord.charAt(i);
@@ -31,6 +32,7 @@ public class KeyedCaesarCipher extends Cipher{
     public String shiftedKeyedAlphabet (String keyedAlphabet, int shift) {
         String output = "";
         StringBuilder outputString = new StringBuilder(output);
+
         //for each letter of the alphabet
         for (int i = 0; i < 26; i++) {
             int currentPosition = i;
@@ -77,9 +79,10 @@ public class KeyedCaesarCipher extends Cipher{
             int encryptedAlphabetPosition = shiftedKeyedAlphabet.indexOf(charInput);
 
             if (encryptedAlphabetPosition < 0) {
-                System.err.println("One or more characters have not been found.");
+                System.err.println("Could not decrypt one or more characters. Please try again.");
             }
 
+            //matches position in normal alphabet of encrypted character.
             char unencryptedCharacter = alphabet.charAt(encryptedAlphabetPosition);
             plainTextOutputString.append(unencryptedCharacter);
         }

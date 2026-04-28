@@ -1,6 +1,6 @@
 public class VigenereCipher extends Cipher{
     CaesarCipher caesarCipher = new CaesarCipher();
-    String keyWord;
+    private String keyWord;
 
     public void keyLengthCalculation(String plainText) {
         StringBuilder keyWordString = new StringBuilder(keyWord);
@@ -15,7 +15,7 @@ public class VigenereCipher extends Cipher{
                 char keyWordChar = keyWord.charAt(i);
                 keyWordString.append(keyWordChar);
                 i++;
-                if (i == length) { //resets to beginning of key word once end reached
+                if (i == length) { //resets to beginning of key word once end of key word reached
                     i = 0;
                 }
             }
