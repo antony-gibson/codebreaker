@@ -121,7 +121,7 @@ public class Main {
         int userSelection = CleanText.getNumberInput();
 
         if (userSelection == 1) {
-            Cipher.writeToFile(cipherKeyFileName, userInput);
+            CleanText.writeToFile(cipherKeyFileName, userInput);
         } else if (userSelection == 0) {
             displayMainMenu();
         }
@@ -129,7 +129,7 @@ public class Main {
 
     public void displayKey() {
         System.out.println("Here is the file contents: ");
-        System.out.println(Cipher.readFile(cipherKeyFileName));
+        System.out.println(CleanText.readFile(cipherKeyFileName));
     }
 
     public void enterFile() {
@@ -139,8 +139,8 @@ public class Main {
 
     public void displayPreparedPlaintextFile() {
         String preparedPlainText = CleanText.fileStringInput(chosenTextFile);
-        Cipher.writeToFile("prep.txt", preparedPlainText);
-        String preppedOutput = Cipher.readFile("prep.txt");
+        CleanText.writeToFile("prep.txt", preparedPlainText);
+        String preppedOutput = CleanText.readFile("prep.txt");
         System.out.println(preppedOutput);
     }
 
@@ -149,17 +149,17 @@ public class Main {
 
         switch (userCipherChoice) {
             case 1:
-                int shiftValue = CleanText.fileNumberInput(Cipher.readFile(cipherKeyFileName));
+                int shiftValue = CleanText.fileNumberInput(CleanText.readFile(cipherKeyFileName));
                 cipherOutput = caesarCipher.encrypt(chosenTextFile, shiftValue);
                 break;
             case 2:
-                String keyedFileContents = Cipher.readFile(cipherKeyFileName);
+                String keyedFileContents = CleanText.readFile(cipherKeyFileName);
                 int keyedShift = CleanText.fileNumberInput(keyedFileContents);
                 String keyedCaesarKeyWord = CleanText.fileStringInput(keyedFileContents);
                 cipherOutput = keyedCaesarCipher.encrypt(keyedCaesarKeyWord, keyedShift, chosenTextFile);
                 break;
             case 3:
-                String vigenereKeyWord = CleanText.fileStringInput(Cipher.readFile(cipherKeyFileName));
+                String vigenereKeyWord = CleanText.fileStringInput(CleanText.readFile(cipherKeyFileName));
                 if (vigenereKeyWord.isEmpty()) {
                     System.err.println("Please enter a key word in the edit key section of the menu.");
                     displayMainMenu();
@@ -182,7 +182,7 @@ public class Main {
         int userSelection = CleanText.getNumberInput();
 
         if (userSelection == 1) {
-            Cipher.writeToFile(userSaveFileName, contentsSaved);
+            CleanText.writeToFile(userSaveFileName, contentsSaved);
         } else if (userSelection == 0) {
             displayMainMenu();
         }
@@ -197,19 +197,19 @@ public class Main {
 
         switch (userCipherChoice) {
             case 1:
-                int shiftValue = CleanText.fileNumberInput(Cipher.readFile(cipherKeyFileName));
+                int shiftValue = CleanText.fileNumberInput(CleanText.readFile(cipherKeyFileName));
                 plainTextOutput = caesarCipher.decrypt(fileOutput, shiftValue);
                 System.out.println(plainTextOutput);
                 break;
             case 2:
-                String keyedFileContents = Cipher.readFile(cipherKeyFileName);
+                String keyedFileContents = CleanText.readFile(cipherKeyFileName);
                 int keyedShift = CleanText.fileNumberInput(keyedFileContents);
                 String keyWord = CleanText.fileStringInput(keyedFileContents);
                 plainTextOutput = keyedCaesarCipher.decrypt(keyWord, keyedShift, fileOutput);
                 System.out.println(plainTextOutput);
                 break;
             case 3:
-                String vigenereKeyWord = CleanText.fileStringInput(Cipher.readFile(cipherKeyFileName));
+                String vigenereKeyWord = CleanText.fileStringInput(CleanText.readFile(cipherKeyFileName));
                 if (vigenereKeyWord.isEmpty()) {
                     System.err.println("Please enter a key word in the edit key section of the menu.");
                     displayMainMenu();

@@ -1,7 +1,5 @@
 public class KeyedCaesarCipher extends Cipher{
 
-    private static String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
     public String createKeyedAlphabet (String keyWord) {
         String keyedAlphabet = "";
         StringBuilder keyedAlphabetString = new StringBuilder(keyedAlphabet);
