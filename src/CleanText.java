@@ -60,17 +60,8 @@ public class CleanText {
         return userInput;
     }
 
-    public static String getCipherInput(){
-        getInput();
-        String newUserInput = userInput.trim().toUpperCase();
-        newUserInput = userInput.replaceAll("\\s", "");
-        newUserInput = userInput.replaceAll("[^A-Z]", "");
-        return newUserInput;
-    }
-
     public static int getNumberInput(){
-        getInput();
-        String newInput = userInput.trim().toUpperCase();
+        String newInput = getKeyInput();
         try {
             userNumberInput = Integer.parseInt(userInput.replaceAll("\\s", ""));
             return userNumberInput;
