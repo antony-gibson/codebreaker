@@ -70,22 +70,7 @@ public class Main {
                 displayCipherMenu();
                 break;
             case 2:
-                System.out.println("");
-                System.out.println("***You will still need to pick a Cipher before making changes***");
-                System.out.println("To continue, press 2. To change your mind, press 1.");
-                int userSubMenuInput = CleanText.getNumberInput();
-
-                switch (userSubMenuInput) {
-                    case 1:
-                        displayCipherMenu();
-                        break;
-                    case 2:
-                        displayMainMenu();
-                        break;
-                    default:
-                        System.err.println("Please try again.");
-                        displayMenu();
-                }
+                displayMainMenu();
             default:
                 System.err.println("Please enter an available option.");
                 displayMenu();
@@ -126,7 +111,7 @@ public class Main {
                 cipherKeyFileName = "vigenere-key.txt";
                 break;
             case 4:
-                displayMenu();
+                displayMainMenu();
                 break;
             default:
                 System.err.println("Please choose one of the available options. Try again.");
@@ -203,10 +188,15 @@ public class Main {
      * saves to and reads prepared plaintext from prep.txt file
      */
     public void displayPreparedPlaintextFile() {
+        if (chosenTextFile == null) {
+            System.err.println("Please enter a plaintext file before continuing.");
+            displayMainMenu();
+        }
+
         String preparedPlainText = CleanText.fileStringInput(chosenTextFile);
         Cipher.writeToFile("prep.txt", preparedPlainText);
         String preppedOutput = Cipher.readFile("prep.txt");
-        System.out.println(preppedOutput);
+        System.out.println("Prepared Plaintext File: " + preppedOutput);
     }
 
     /**
@@ -268,8 +258,14 @@ public class Main {
      */
     public void saveToFile(String contentsToSave) {
 
+        if (userCipherChoice == 0) {
+            System.err.println("Please enter a cipher before continuing.");
+            displayCipherMenu();
+        }
+
         if (contentsToSave == null) {
             System.err.println("Please encrypt or decrypt a file before trying to save.");
+            displayMainMenu();
         }
 
         System.out.println("***This will overwrite any existing file contents***");

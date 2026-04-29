@@ -9,7 +9,6 @@ import java.io.File;
  */
 public class CleanText {
     private static String userInput;
-    private static int userNumberInput;
     private static String cleanFileOutput;
     private static Scanner input = new Scanner(System.in); //takes user's input
 
@@ -103,13 +102,13 @@ public class CleanText {
      * @return userNumberInput, integers but with whitespace removed
      */
     public static int getNumberInput(){
+        int userNumberInput = -1;
         String newInput = getKeyInput();
+
         try {
-            userNumberInput = Integer.parseInt(userInput.replaceAll("\\s", ""));
+            userNumberInput = Integer.parseInt(newInput.replaceAll("[^0-9]", ""));
             return userNumberInput;
         } catch (NumberFormatException error) {
-            System.err.println("An Error has occurred." + error.getMessage());
-            System.exit(1);
         }
         return userNumberInput;
     }
