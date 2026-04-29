@@ -1,7 +1,19 @@
+/**
+ * Subclass of Cipher superclass, handling the Keyed Caesar Cipher.
+ *
+ * @author Antony Gibson
+ * @since 11th March 2026
+ */
+
 public class KeyedCaesarCipher extends Cipher{
 
     private static String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+    /**
+     * creates the keyed alphabet used in encryption
+     * @param keyWord is the word chosen by user to use as the key
+     * @return keyedAlphabetString, the outcome of removing duplicate letters from key and adding remaining letters of alphabet onto the end
+     */
     public String createKeyedAlphabet (String keyWord) {
         String keyedAlphabet = "";
         StringBuilder keyedAlphabetString = new StringBuilder(keyedAlphabet);
@@ -29,6 +41,12 @@ public class KeyedCaesarCipher extends Cipher{
         return keyedAlphabetString.toString();
     }
 
+    /**
+     * shifts the keyed alphabet by the shift value
+     * @param keyedAlphabet is the keyed alphabet created above, in createKeyedAlphabet()
+     * @param shift is the shift value inputted by user into the key file
+     * @return outputString, the shifted keyed alphabet to be used for encryption
+     */
     public String shiftedKeyedAlphabet (String keyedAlphabet, int shift) {
         String output = "";
         StringBuilder outputString = new StringBuilder(output);
@@ -41,12 +59,17 @@ public class KeyedCaesarCipher extends Cipher{
 
             char charOutput = keyedAlphabet.charAt(wrappedShiftPosition); //take character from new position in the keyed alphabet
             outputString.append(charOutput);
-
         }
-
         return outputString.toString();
     }
 
+    /**
+     * encrypts user plaintext into ciphertext
+     * @param keyWord is word chosen by user as key in key file
+     * @param shift is shift value chosen by user in key file
+     * @param userInput is plaintext from user-inputted file
+     * @return cipherStringOutput, the result of encrypting the plaintext into ciphertext
+     */
     public String encrypt (String keyWord, int shift, String userInput) {
         String keyedAlphabet = createKeyedAlphabet(keyWord);
         String shiftedKeyedAlphabet = shiftedKeyedAlphabet(keyedAlphabet, shift);
@@ -65,6 +88,13 @@ public class KeyedCaesarCipher extends Cipher{
         return cipherStringOutput.toString();
     }
 
+    /**
+     * decrypts user ciphertext into plaintext by reconstructing shifted keyed alphabet, finding ciphertext letters and returning letters in same position in normal alphabet
+     * @param keyWord is word chosen by user as key in key file
+     * @param shift is shift value chosen by user in key file
+     * @param userEncryptedInput is cipher text from file chosen by user
+     * @return plainTextOutputString, the result of decrypting
+     */
     public String decrypt (String keyWord, int shift, String userEncryptedInput) {
         String keyedAlphabet = createKeyedAlphabet(keyWord);
         String shiftedKeyedAlphabet = shiftedKeyedAlphabet(keyedAlphabet, shift);

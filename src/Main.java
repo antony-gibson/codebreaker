@@ -1,3 +1,12 @@
+/**
+ * Cipher program that supports encryption and decryption using:
+ * - caesar cipher
+ * - keyed caesar cipher
+ * - vigenere cipher
+ *
+ * @author Antony Gibson
+ * @since 11th March 2026
+ */
 
 public class Main {
     private int userMainMenuInput;
@@ -10,12 +19,18 @@ public class Main {
     KeyedCaesarCipher keyedCaesarCipher = new KeyedCaesarCipher();
     VigenereCipher vigenereCipher = new VigenereCipher();
 
+    /**
+     * Holds the sub menu
+     */
     public void subMenu(){
         System.out.println("1. Pick your Cipher");
         System.out.println("2. Display Other Menu Options");
         System.out.println("0. Exit Program");
     }
 
+    /**
+     * Holds main menu, called from most places in Main
+     */
     public void mainMenu(){
         System.out.println("1. Pick your Cipher");
         System.out.println("2. Edit Key");
@@ -30,6 +45,9 @@ public class Main {
         System.out.println("0. Exit Program");
     }
 
+    /**
+     * holds cipher menu, used by users to pick desired cipher
+     */
     public void cipherMenu(){
         System.out.println("1. Caesar Cipher");
         System.out.println("2. Keyed Caesar Cipher");
@@ -38,6 +56,9 @@ public class Main {
         System.out.println("0. Exit Program");
     }
 
+    /**
+     * used to display submenu and carry out user's inputs
+     */
     public void displayMenu() {
         subMenu();
         int userMenuInput = CleanText.getNumberInput();
@@ -73,12 +94,18 @@ public class Main {
         }
     }
 
+    /**
+     * displays main menu, calls menuActions() to carry out functions
+     */
     public void displayMainMenu() {
         mainMenu();
         userMainMenuInput = CleanText.getNumberInput();
         menuActions();
     }
 
+    /**
+     * displays cipher menu, assigns name of cipher key file depending on choice
+     */
     public void displayCipherMenu(){
         cipherMenu();
         int userCipherInput = CleanText.getNumberInput();
@@ -112,6 +139,9 @@ public class Main {
         displayMainMenu();
     }
 
+    /**
+     * used to edit the key file
+     */
     public void editKey(){
         System.out.println("Enter new key: ");
         String userInput = CleanText.getKeyInput();
@@ -127,16 +157,25 @@ public class Main {
         }
     }
 
+    /**
+     * displays the key file to user
+     */
     public void displayKey() {
         System.out.println("Here is the file contents: ");
         System.out.println(Cipher.readFile(cipherKeyFileName));
     }
 
+    /**
+     * prompts user to enter a file name
+     */
     public void enterFile() {
         chosenTextFile = CleanText.getFileContents();
         System.out.println("To continue, select another item from the menu.");
     }
 
+    /**
+     * saves to and reads prepared plaintext from prep.txt file
+     */
     public void displayPreparedPlaintextFile() {
         String preparedPlainText = CleanText.fileStringInput(chosenTextFile);
         Cipher.writeToFile("prep.txt", preparedPlainText);
@@ -144,6 +183,9 @@ public class Main {
         System.out.println(preppedOutput);
     }
 
+    /**
+     * encrypts user-chosen file based on the chosen cipher.
+     */
     public void encryptFile() {
         //chosenTextFile is declared at the top of Main
 
@@ -173,6 +215,10 @@ public class Main {
         }
     }
 
+    /**
+     * saves to a file specified by user
+     * @param contentsSaved is the contents to be saved to the file
+     */
     public void saveFile(String contentsSaved){
         System.out.println("Please enter the filename to save to: ");
         String userSaveFileName = CleanText.getInput();
@@ -188,10 +234,16 @@ public class Main {
         }
     }
 
+    /**
+     * displays cipher text to the user
+     */
     public void displayCipherTextFile() {
         System.out.println(cipherOutput);
     }
 
+    /**
+     * decrypts user-specified file according to which cipher the user chose
+     */
     public void decryptFile() {
         String fileOutput = CleanText.fileOutput();
 
@@ -225,6 +277,9 @@ public class Main {
         }
     }
 
+    /**
+     * each case corresponds to the numbers the user inputs in the main menu, calls the relevant methods depending on task.
+     */
     public void menuActions() {
 
         switch (userMainMenuInput) {
@@ -277,6 +332,9 @@ public class Main {
         }
     }
 
+    /**
+     * runs Main
+     */
     //initialises the functions to run: without this, Main.java cannot be run by IntelliJ
     public static void main(String[] args){
         Main main = new Main();

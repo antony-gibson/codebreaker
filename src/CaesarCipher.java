@@ -1,5 +1,18 @@
+/**
+ * Subclass of Cipher superclass, handling the Caesar Cipher.
+ *
+ * @author Antony Gibson
+ * @since 11th March 2026
+ */
+
 public class CaesarCipher extends Cipher {
 
+    /**
+     * takes plaintext input and a shift value, and encrypts into the ciphertext output
+     * @param fileOutput is the plaintext from the text file inputted by the user
+     * @param shiftValue is the shift value in the key file edited by the user
+     * @return cipherStringOutput, the final ciphertext after encrypting all plaintext letters
+     */
     public String encrypt(String fileOutput, int shiftValue) {
         String cipherOutput = "";
         StringBuilder cipherStringOutput = new StringBuilder(cipherOutput);
@@ -17,6 +30,12 @@ public class CaesarCipher extends Cipher {
         return cipherStringOutput.toString();
     }
 
+    /**
+     * decrypts the ciphertext by reversing the process, and shifting by the inverse of the encryption shift
+     * @param fileOutput is the plaintext from the text file inputted by the user
+     * @param shiftValue is the shift value in the key file edited by the user
+     * @return the result of running the encrypt with a negative shift (to reverse the shift performed during encryption)
+     */
     public String decrypt(String fileOutput, int shiftValue) {
         return encrypt(fileOutput, -shiftValue); //does the same thing but shifts the opposite way, hence -shift, so gives the original input.
     }

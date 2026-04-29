@@ -1,7 +1,18 @@
+/**
+ * Subclass of Cipher superclass, handling the Vigenere Cipher.
+ *
+ * @author Antony Gibson
+ * @since 11th March 2026
+ */
+
 public class VigenereCipher extends Cipher{
     CaesarCipher caesarCipher = new CaesarCipher();
     private String keyWord;
 
+    /**
+     * lengthens or shortens the key to the exact length of the plaintext input
+     * @param plainText is the plain text from the file chosen by the user to encrypt
+     */
     public void keyLengthCalculation(String plainText) {
         StringBuilder keyWordString = new StringBuilder(keyWord);
 
@@ -28,7 +39,12 @@ public class VigenereCipher extends Cipher{
         this.keyWord = keyWordString.toString(); //assigns to the global variable at the top, rather than stringBuilder
     }
 
-
+    /**
+     * encrypts the plaintext using vigenere cipher
+     * @param plainText is the plain text output of the file chosen by the user to encrypt
+     * @param userKeyWord is the key word chosen by the user in the key file
+     * @return cipherOutput, the result of encrypting the plaintext into ciphertext
+     */
     public String encrypt(String plainText, String userKeyWord) {
         StringBuilder cipherOutput = new StringBuilder();
 
@@ -47,6 +63,12 @@ public class VigenereCipher extends Cipher{
         return cipherOutput.toString();
     }
 
+    /**
+     * decrypts the cipher text back into plaintext by determining the shift value applied to each letter, then decrypting (with a caesar cipher) by each shift value for each letter
+     * @param cipherText is the cipher text output of the file chosen by the user to decrypt
+     * @param userKeyWord is the key word chosen by the user in the key file
+     * @return plainTextOutput, the result of decrypting the cipher text into plain text
+     */
     public String decrypt(String cipherText, String userKeyWord) {
         StringBuilder plainTextOutput = new StringBuilder();
 
