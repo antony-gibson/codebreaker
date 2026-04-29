@@ -1,3 +1,4 @@
+import java.io.IOException;
 /**
  * Cipher program that supports encryption and decryption using:
  * - caesar cipher
@@ -7,10 +8,9 @@
  * @author Antony Gibson
  * @since 11th March 2026
  */
-
 public class Main {
     private int userMainMenuInput;
-    private int userCipherChoice;
+    private int userCipherChoice = 0;
     private String cipherOutput;
     private String plainTextOutput;
     private String chosenTextFile;
@@ -72,7 +72,7 @@ public class Main {
                 break;
             case 2:
                 System.out.println("");
-                System.out.println("***You will still need to pick a Cipher before making changes, are you sure you want to continue?***");
+                System.out.println("***You will still need to pick a Cipher before making changes***");
                 System.out.println("To continue, press 2. To change your mind, press 1.");
                 int userSubMenuInput = CleanText.getNumberInput();
 
@@ -84,12 +84,12 @@ public class Main {
                         displayMainMenu();
                         break;
                     default:
-                        System.err.println("An error has occurred in sub-menu. Please try again.");
-                        System.exit(1);
+                        System.err.println("Please try again.");
+                        displayMenu();
                 }
             default:
-                System.err.println("An error has occurred. Please try again.");
-                System.exit(1);
+                System.err.println("Please enter an available option.");
+                displayMenu();
                 break;
         }
     }
@@ -130,8 +130,8 @@ public class Main {
                 displayMenu();
                 break;
             default:
-                System.err.println("Something went wrong. Please try again.");
-                System.exit(1);
+                System.err.println("Please choose one of the available options. Try again.");
+                displayCipherMenu();
         }
 
         System.out.println("");
@@ -143,8 +143,30 @@ public class Main {
      * used to edit the key file
      */
     public void editKey(){
-        System.out.println("Enter new key: ");
-        String userInput = CleanText.getKeyInput();
+        String userInput = "";
+
+        switch (userCipherChoice) {
+            case 0:
+                System.err.println("Please enter a cipher before continuing.");
+                displayCipherMenu();
+                break;
+            case 1: //Caesar Cipher
+                System.out.println("Please enter the shift value to encrypt with.");
+                userInput = CleanText.getKeyInput();
+                break;
+            case 2: //Keyed Caesar Cipher
+                System.out.println("Please enter the word to use as a key, followed by the shift value you would like.");
+                userInput = CleanText.getKeyInput();
+                break;
+            case 3: //Vigenere Cipher
+                System.out.println("Please enter the word to use as a key.");
+                userInput = CleanText.getKeyInput();
+        }
+
+        if (userInput.isEmpty()) {
+            System.err.println("Please enter a key before continuing.");
+            editKey();
+        }
 
         System.out.println("Are you sure? ***This will overwrite any existing file contents.***");
         System.out.println("Press 1 to save, press 0 to go back.");
@@ -161,7 +183,12 @@ public class Main {
      * displays the key file to user
      */
     public void displayKey() {
-        System.out.println("Here is the file contents: ");
+        if (cipherKeyFileName == null) {
+            System.err.println("Please select a cipher before continuing.");
+            displayCipherMenu();
+        }
+
+        System.out.println("Here is the current key: ");
         System.out.println(Cipher.readFile(cipherKeyFileName));
     }
 
@@ -184,30 +211,56 @@ public class Main {
     }
 
     /**
+     * checks user has actually chosen a file to use with the ciphers
+     * @param chosenTextFile is the text file chosen by user to take input from to enter into ciphers
+     */
+    public void checkChosenTextFile(String chosenTextFile){
+        if (chosenTextFile == null) {
+            System.err.println("Please enter a file to encrypt or decrypt.");
+            enterFile();
+        }
+    }
+
+    /**
+     * checks user has entered a key in the key file to use with the ciphers
+     * @param cipherKeyFile is the name of the key file depending on the cipher chosen by the user
+     */
+    public void checkCipherKeyFile(String cipherKeyFile){
+        if (cipherKeyFile == null) {
+            System.err.println("Please enter a key in the key file.");
+            editKey();
+        }
+    }
+
+    /**
      * encrypts user-chosen file based on the chosen cipher.
      */
     public void encryptFile() {
         //chosenTextFile is declared at the top of Main
 
         switch (userCipherChoice) {
+            case 0:
+                System.err.println("Please enter a cipher before trying to encrypt a file.");
+                displayCipherMenu();
             case 1:
+                checkCipherKeyFile(cipherKeyFileName);
                 int shiftValue = CleanText.fileNumberInput(Cipher.readFile(cipherKeyFileName));
+                checkChosenTextFile(chosenTextFile);
                 cipherOutput = caesarCipher.encrypt(chosenTextFile, shiftValue);
                 break;
             case 2:
+                checkCipherKeyFile(cipherKeyFileName);
                 String keyedFileContents = Cipher.readFile(cipherKeyFileName);
                 int keyedShift = CleanText.fileNumberInput(keyedFileContents);
                 String keyedCaesarKeyWord = CleanText.fileStringInput(keyedFileContents);
+                checkChosenTextFile(chosenTextFile);
                 cipherOutput = keyedCaesarCipher.encrypt(keyedCaesarKeyWord, keyedShift, chosenTextFile);
                 break;
             case 3:
+                checkCipherKeyFile(cipherKeyFileName);
                 String vigenereKeyWord = CleanText.fileStringInput(Cipher.readFile(cipherKeyFileName));
-                if (vigenereKeyWord.isEmpty()) {
-                    System.err.println("Please enter a key word in the edit key section of the menu.");
-                    displayMainMenu();
-                } else {
-                    cipherOutput = vigenereCipher.encrypt(chosenTextFile, vigenereKeyWord);
-                }
+                checkChosenTextFile(chosenTextFile);
+                cipherOutput = vigenereCipher.encrypt(chosenTextFile, vigenereKeyWord);
                 break;
             default:
                 System.err.println("An error has occurred. Please try again.");
@@ -238,7 +291,12 @@ public class Main {
      * displays cipher text to the user
      */
     public void displayCipherTextFile() {
-        System.out.println(cipherOutput);
+        if (cipherOutput == null) {
+            System.err.println("Please encrypt a file before trying to display it.");
+            displayMainMenu();
+        } else {
+            System.out.println(cipherOutput);
+        }
     }
 
     /**
@@ -247,13 +305,25 @@ public class Main {
     public void decryptFile() {
         String fileOutput = CleanText.fileOutput();
 
+        if (fileOutput == null && userCipherChoice == 0) {
+            System.err.println("Please enter a cipher before trying to decrypt a file.");
+            displayCipherMenu();
+        } else if (fileOutput == null) {
+            CleanText.getFileContents();
+        }
+
         switch (userCipherChoice) {
+            case 0:
+                System.err.println("Please enter a cipher before trying to decrypt a file.");
+                displayCipherMenu();
             case 1:
+                checkCipherKeyFile(cipherKeyFileName);
                 int shiftValue = CleanText.fileNumberInput(Cipher.readFile(cipherKeyFileName));
                 plainTextOutput = caesarCipher.decrypt(fileOutput, shiftValue);
                 System.out.println(plainTextOutput);
                 break;
             case 2:
+                checkCipherKeyFile(cipherKeyFileName);
                 String keyedFileContents = Cipher.readFile(cipherKeyFileName);
                 int keyedShift = CleanText.fileNumberInput(keyedFileContents);
                 String keyWord = CleanText.fileStringInput(keyedFileContents);
@@ -261,13 +331,9 @@ public class Main {
                 System.out.println(plainTextOutput);
                 break;
             case 3:
+                checkCipherKeyFile(cipherKeyFileName);
                 String vigenereKeyWord = CleanText.fileStringInput(Cipher.readFile(cipherKeyFileName));
-                if (vigenereKeyWord.isEmpty()) {
-                    System.err.println("Please enter a key word in the edit key section of the menu.");
-                    displayMainMenu();
-                } else {
-                    plainTextOutput = vigenereCipher.decrypt(fileOutput, vigenereKeyWord);
-                }
+                plainTextOutput = vigenereCipher.decrypt(fileOutput, vigenereKeyWord);
                 System.out.println(plainTextOutput);
                 break;
             default:
@@ -327,7 +393,7 @@ public class Main {
                 displayMainMenu();
                 break;
             default:
-                System.err.println("Please pick one of the displayed numbers. Your choice was not within the range permitted. If this is a program error, try again.");
+                System.err.println("Please pick one of the displayed numbers.");
                 displayMainMenu();
         }
     }

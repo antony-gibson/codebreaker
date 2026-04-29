@@ -7,6 +7,10 @@
 
 public class CaesarCipher extends Cipher {
 
+
+
+
+
     /**
      * takes plaintext input and a shift value, and encrypts into the ciphertext output
      * @param fileOutput is the plaintext from the text file inputted by the user

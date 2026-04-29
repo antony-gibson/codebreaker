@@ -22,6 +22,12 @@ public class CleanText {
         String userFileNameInput = input.nextLine();
         fileCheck(userFileNameInput);
         String fileOutput = Cipher.readFile(userFileNameInput);
+
+        if (fileOutput.isEmpty()) {
+            System.err.println("This file is empty.");
+            System.exit(1);
+        }
+
         cleanFileOutput = fileStringInput(fileOutput);
         return cleanFileOutput;
     }

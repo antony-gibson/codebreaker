@@ -64,7 +64,7 @@ public class Cipher {
             }
             System.out.println("File created: " + fileName);
         } else if (file.exists()) {
-            System.out.println(fileName + "already exists. Saving is still working as intended.");
+            System.out.println(fileName + " already exists. Saving is still working as intended.");
         } else {
             System.err.println("An error has occurred. Please try again.");
             System.exit(1);
