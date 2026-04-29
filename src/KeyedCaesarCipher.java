@@ -1,5 +1,7 @@
 public class KeyedCaesarCipher extends Cipher{
 
+    private static String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
     public String createKeyedAlphabet (String keyWord) {
         String keyedAlphabet = "";
         StringBuilder keyedAlphabetString = new StringBuilder(keyedAlphabet);
@@ -7,7 +9,7 @@ public class KeyedCaesarCipher extends Cipher{
         //removes duplicate letters within user-specified key word
         for (int i = 0; i < keyWord.length(); i++) {
             char keyWordChar = keyWord.charAt(i);
-            int firstInstance = keyedAlphabet.indexOf(keyWordChar);
+            int firstInstance = keyedAlphabetString.indexOf(String.valueOf(keyWordChar));
 
             if (firstInstance < 0) { //if letter isn't already in alphabet, add it
                 keyedAlphabetString.append(keyWordChar);
@@ -17,14 +19,14 @@ public class KeyedCaesarCipher extends Cipher{
         //removes duplicate letters within the alphabet once key word has been appended
         for (int i = 0; i < 26; i++) {
             char currentLetter = (char)(i+'A'); //adding A gives ASCII value of current position in alphabet
-            int firstInstance = keyedAlphabet.indexOf(currentLetter);
+            int firstInstance = keyedAlphabetString.indexOf(String.valueOf(currentLetter));
 
             if (firstInstance < 0) { //if letter isn't already in alphabet, add it
                 keyedAlphabetString.append(currentLetter);
             }
         }
 
-        return keyedAlphabet;
+        return keyedAlphabetString.toString();
     }
 
     public String shiftedKeyedAlphabet (String keyedAlphabet, int shift) {
@@ -42,7 +44,7 @@ public class KeyedCaesarCipher extends Cipher{
 
         }
 
-        return output;
+        return outputString.toString();
     }
 
     public String encrypt (String keyWord, int shift, String userInput) {
@@ -60,7 +62,7 @@ public class KeyedCaesarCipher extends Cipher{
             cipherStringOutput.append(newAlphabetPosition); //takes the letter at that position in the new, shifted and keyed alphabet and appends to cipher output variable
         }
 
-        return cipherOutput;
+        return cipherStringOutput.toString();
     }
 
     public String decrypt (String keyWord, int shift, String userEncryptedInput) {
@@ -84,7 +86,7 @@ public class KeyedCaesarCipher extends Cipher{
             char unencryptedCharacter = alphabet.charAt(encryptedAlphabetPosition);
             plainTextOutputString.append(unencryptedCharacter);
         }
-        return plainTextOutput;
+        return plainTextOutputString.toString();
     }
 
 }
