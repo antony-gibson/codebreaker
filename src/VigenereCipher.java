@@ -4,7 +4,6 @@
  * @author Antony Gibson
  * @since 11th March 2026
  */
-
 public class VigenereCipher extends Cipher{
     CaesarCipher caesarCipher = new CaesarCipher();
     private String keyWord;
@@ -32,6 +31,15 @@ public class VigenereCipher extends Cipher{
         String vigenereCipher = decrypt(chosenTextFile, keyWord);
         return vigenereCipher;
     }
+
+    /**
+     * takes contents to save to file and then calls saveFile method
+     * @param contentsToSave is the contents passed into this method to save to the specified file
+     */
+    public void vigenereSave(String contentsToSave) {
+        super.saveFile(contentsToSave);
+    }
+
     /**
      * lengthens or shortens the key to the exact length of the plaintext input
      * @param plainText is the plain text from the file chosen by the user to encrypt

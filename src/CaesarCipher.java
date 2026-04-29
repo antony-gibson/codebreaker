@@ -4,7 +4,6 @@
  * @author Antony Gibson
  * @since 11th March 2026
  */
-
 public class CaesarCipher extends Cipher {
 
     /**
@@ -29,6 +28,14 @@ public class CaesarCipher extends Cipher {
         int shiftValue = CleanText.fileNumberInput(super.readFile(fileName));
         String caesarCipher = decrypt(chosenTextFile, shiftValue);
         return caesarCipher;
+    }
+
+    /**
+     * takes contents to save to file then calls saveFile method
+     * @param contentsToSave is the contents passed into this method to save to the specified file
+     */
+    public void caesarSave(String contentsToSave) {
+        super.saveFile(contentsToSave);
     }
 
     /**

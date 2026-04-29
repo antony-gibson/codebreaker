@@ -1,4 +1,3 @@
-import java.io.IOException;
 /**
  * Cipher program that supports encryption and decryption using:
  * - caesar cipher
@@ -264,22 +263,49 @@ public class Main {
     }
 
     /**
-     * saves to a file specified by user
-     * @param contentsSaved is the contents to be saved to the file
+     * calls save to file methods of user's chosen cipher
+     * @param contentsToSave is the contents passed into this method to save to the specified file
      */
-    public void saveFile(String contentsSaved){
-        System.out.println("Please enter the filename to save to: ");
-        String userSaveFileName = CleanText.getInput();
+    public void saveToFile(String contentsToSave) {
 
-        System.out.println("***This will overwrite any existing file contents.***");
+        if (contentsToSave == null) {
+            System.err.println("Please encrypt or decrypt a file before trying to save.");
+        }
+
+        System.out.println("***This will overwrite any existing file contents***");
         System.out.println("Press 1 to save, press 0 to go back.");
         int userSelection = CleanText.getNumberInput();
 
-        if (userSelection == 1) {
-            Cipher.writeToFile(userSaveFileName, contentsSaved);
-        } else if (userSelection == 0) {
-            displayMainMenu();
+        switch (userSelection) {
+            case 0:
+                displayMainMenu();
+                break;
+            case 1:
+                switch (userCipherChoice) {
+                    case 0:
+                        System.err.println("Please enter a cipher before continuing.");
+                        displayCipherMenu();
+                        break;
+                    case 1:
+                        caesarCipher.caesarSave(contentsToSave);
+                        break;
+                    case 2:
+                        keyedCaesarCipher.keyedCaesarSave(contentsToSave);
+                        break;
+                    case 3:
+                        vigenereCipher.vigenereSave(contentsToSave);
+                        break;
+                    default:
+                        System.err.println("An error has occurred. Please try again.");
+                        displayMainMenu();
+                }
+                break;
+            default:
+                System.err.println("Please enter one of the displayed options.");
+                saveToFile(contentsToSave);
         }
+
+
     }
 
     /**
@@ -371,7 +397,7 @@ public class Main {
                 displayMainMenu();
                 break;
             case 8: //save cipher text to file
-                saveFile(cipherOutput);
+                saveToFile(cipherOutput);
                 displayMainMenu();
                 break;
             case 9: //input ciphertext file to decrypt
@@ -380,7 +406,7 @@ public class Main {
                 break;
             case 10: //decrypt ciphertext file
                 decryptFile();
-                saveFile(plainTextOutput);
+                saveToFile(plainTextOutput);
                 displayMainMenu();
                 break;
             default:

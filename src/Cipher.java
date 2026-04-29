@@ -35,6 +35,18 @@ public class Cipher {
     }
 
     /**
+     * saves to a file specified by user
+     * @param contentsSaved is the contents to be saved to the file
+     */
+    public void saveFile(String contentsSaved){
+        System.out.println("Please enter the filename to save to: ");
+        String userSaveFileName = CleanText.getInput();
+
+        writeToFile(userSaveFileName, contentsSaved);
+
+    }
+
+    /**
      * writes information passed into this method to a file chosen by the user
      * @param fileName takes the name inputted by the user of the file to be used
      * @param content is the information to be written to the file

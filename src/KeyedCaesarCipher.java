@@ -4,7 +4,6 @@
  * @author Antony Gibson
  * @since 11th March 2026
  */
-
 public class KeyedCaesarCipher extends Cipher{
 
     private static String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -33,6 +32,14 @@ public class KeyedCaesarCipher extends Cipher{
         String keyWord = CleanText.fileStringInput(super.readFile(fileName));
         String keyedCaesar = decrypt(keyWord, shiftValue, chosenTextFile);
         return keyedCaesar;
+    }
+
+    /**
+     * takes contents to save to file then calls saveFile method
+     * @param contentsToSave is the contents passed into this method to save to the specified file
+     */
+    public void keyedCaesarSave(String contentsToSave) {
+        super.saveFile(contentsToSave);
     }
 
     /**
