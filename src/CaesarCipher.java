@@ -7,14 +7,34 @@
 
 public class CaesarCipher extends Cipher {
 
+    /**
+     * takes plaintext input and key file name to call encrypt function
+     * @param fileName is name of key file
+     * @param chosenTextFile is user's file to encrypt
+     * @return caesarCipher, the result of calling the encrypt function
+     */
+    public String caesarEncrypt(String fileName, String chosenTextFile) {
+        int shiftValue = CleanText.fileNumberInput(super.readFile(fileName));
+        String caesarCipher = encrypt(chosenTextFile, shiftValue);
+        return caesarCipher;
+    }
 
-
-
+    /**
+     * takes ciphertext input and key file name to call decrypt function
+     * @param fileName is name of key file
+     * @param chosenTextFile is name of user's file to decrypt
+     * @return caesarCipher, the result of calling the decrypt function
+     */
+    public String caesarDecrypt(String fileName, String chosenTextFile) {
+        int shiftValue = CleanText.fileNumberInput(super.readFile(fileName));
+        String caesarCipher = decrypt(chosenTextFile, shiftValue);
+        return caesarCipher;
+    }
 
     /**
      * takes plaintext input and a shift value, and encrypts into the ciphertext output
-     * @param fileOutput is the plaintext from the text file inputted by the user
-     * @param shiftValue is the shift value in the key file edited by the user
+     * @param fileOutput is the plaintext input
+     * @param shiftValue is the shift value input
      * @return cipherStringOutput, the final ciphertext after encrypting all plaintext letters
      */
     public String encrypt(String fileOutput, int shiftValue) {

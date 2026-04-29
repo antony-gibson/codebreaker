@@ -244,23 +244,18 @@ public class Main {
                 displayCipherMenu();
             case 1:
                 checkCipherKeyFile(cipherKeyFileName);
-                int shiftValue = CleanText.fileNumberInput(Cipher.readFile(cipherKeyFileName));
                 checkChosenTextFile(chosenTextFile);
-                cipherOutput = caesarCipher.encrypt(chosenTextFile, shiftValue);
+                cipherOutput = caesarCipher.caesarEncrypt(cipherKeyFileName, chosenTextFile);
                 break;
             case 2:
                 checkCipherKeyFile(cipherKeyFileName);
-                String keyedFileContents = Cipher.readFile(cipherKeyFileName);
-                int keyedShift = CleanText.fileNumberInput(keyedFileContents);
-                String keyedCaesarKeyWord = CleanText.fileStringInput(keyedFileContents);
                 checkChosenTextFile(chosenTextFile);
-                cipherOutput = keyedCaesarCipher.encrypt(keyedCaesarKeyWord, keyedShift, chosenTextFile);
+                cipherOutput = keyedCaesarCipher.keyedCaesarEncrypt(cipherKeyFileName, chosenTextFile);
                 break;
             case 3:
                 checkCipherKeyFile(cipherKeyFileName);
-                String vigenereKeyWord = CleanText.fileStringInput(Cipher.readFile(cipherKeyFileName));
                 checkChosenTextFile(chosenTextFile);
-                cipherOutput = vigenereCipher.encrypt(chosenTextFile, vigenereKeyWord);
+                cipherOutput = vigenereCipher.vigenereEncrypt(cipherKeyFileName, chosenTextFile);
                 break;
             default:
                 System.err.println("An error has occurred. Please try again.");
@@ -318,29 +313,25 @@ public class Main {
                 displayCipherMenu();
             case 1:
                 checkCipherKeyFile(cipherKeyFileName);
-                int shiftValue = CleanText.fileNumberInput(Cipher.readFile(cipherKeyFileName));
-                plainTextOutput = caesarCipher.decrypt(fileOutput, shiftValue);
-                System.out.println(plainTextOutput);
+                checkChosenTextFile(chosenTextFile);
+                plainTextOutput = caesarCipher.caesarDecrypt(cipherKeyFileName, chosenTextFile);
                 break;
             case 2:
                 checkCipherKeyFile(cipherKeyFileName);
-                String keyedFileContents = Cipher.readFile(cipherKeyFileName);
-                int keyedShift = CleanText.fileNumberInput(keyedFileContents);
-                String keyWord = CleanText.fileStringInput(keyedFileContents);
-                plainTextOutput = keyedCaesarCipher.decrypt(keyWord, keyedShift, fileOutput);
-                System.out.println(plainTextOutput);
+                checkChosenTextFile(chosenTextFile);
+                plainTextOutput = keyedCaesarCipher.keyedCaesarDecrypt(cipherKeyFileName, chosenTextFile);
                 break;
             case 3:
                 checkCipherKeyFile(cipherKeyFileName);
-                String vigenereKeyWord = CleanText.fileStringInput(Cipher.readFile(cipherKeyFileName));
-                plainTextOutput = vigenereCipher.decrypt(fileOutput, vigenereKeyWord);
-                System.out.println(plainTextOutput);
+                checkChosenTextFile(chosenTextFile);
+                plainTextOutput = vigenereCipher.vigenereDecrypt(cipherKeyFileName, chosenTextFile);
                 break;
             default:
                 System.err.println("An error has occurred. Please try again.");
                 System.exit(1);
                 break;
         }
+        System.out.println("Decrypted File: " + plainTextOutput);
     }
 
     /**

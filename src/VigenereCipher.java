@@ -10,6 +10,29 @@ public class VigenereCipher extends Cipher{
     private String keyWord;
 
     /**
+     * takes plaintext input and key file name to call encrypt function
+     * @param fileName is key file name
+     * @param chosenTextFile is name of user's file to encrypt
+     * @return vigenereCipher, the result of calling the encrypt function
+     */
+    public String vigenereEncrypt(String fileName, String chosenTextFile) {
+        String keyWord = CleanText.fileStringInput(super.readFile(fileName));
+        String vigenereCipher = encrypt(chosenTextFile, keyWord);
+        return vigenereCipher;
+    }
+
+    /**
+     * takes ciphertext input and key file name to call decrypt function
+     * @param fileName is key file name
+     * @param chosenTextFile is name of user's file to encrypt
+     * @return vigenereCipher, the result of calling the decrypt function
+     */
+    public String vigenereDecrypt(String fileName, String chosenTextFile) {
+        String keyWord = CleanText.fileStringInput(super.readFile(fileName));
+        String vigenereCipher = decrypt(chosenTextFile, keyWord);
+        return vigenereCipher;
+    }
+    /**
      * lengthens or shortens the key to the exact length of the plaintext input
      * @param plainText is the plain text from the file chosen by the user to encrypt
      */

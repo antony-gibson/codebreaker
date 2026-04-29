@@ -10,6 +10,32 @@ public class KeyedCaesarCipher extends Cipher{
     private static String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
+     * takes plaintext input and key file name to call encrypt function
+     * @param fileName is name of key file
+     * @param chosenTextFile is name of user's file to encrypt
+     * @return keyedCaesar, the result of calling the encrypt function
+     */
+    public String keyedCaesarEncrypt(String fileName, String chosenTextFile) {
+        int shiftValue = CleanText.fileNumberInput(super.readFile(fileName));
+        String keyWord = CleanText.fileStringInput(super.readFile(fileName));
+        String keyedCaesar = encrypt(keyWord, shiftValue, chosenTextFile);
+        return keyedCaesar;
+    }
+
+    /**
+     * takes ciphertext input and key file name to call decrypt function
+     * @param fileName is name of key file
+     * @param chosenTextFile is name of user's file to encrypt
+     * @return keyedCaesar, the result of calling the decrypt function
+     */
+    public String keyedCaesarDecrypt(String fileName, String chosenTextFile) {
+        int shiftValue = CleanText.fileNumberInput(super.readFile(fileName));
+        String keyWord = CleanText.fileStringInput(super.readFile(fileName));
+        String keyedCaesar = decrypt(keyWord, shiftValue, chosenTextFile);
+        return keyedCaesar;
+    }
+
+    /**
      * creates the keyed alphabet used in encryption
      * @param keyWord is the word chosen by user to use as the key
      * @return keyedAlphabetString, the outcome of removing duplicate letters from key and adding remaining letters of alphabet onto the end
