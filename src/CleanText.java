@@ -8,7 +8,6 @@ import java.io.File;
  * @since 11th March 2026
  */
 public class CleanText {
-    private static String userInput;
     private static String cleanFileOutput;
     private static Scanner input = new Scanner(System.in); //takes user's input
 
@@ -22,6 +21,7 @@ public class CleanText {
         fileCheck(userFileNameInput);
         String fileOutput = Cipher.readFile(userFileNameInput);
 
+        //Checks file is not empty
         if (fileOutput.isEmpty()) {
             System.err.println("This file is empty.");
             System.exit(1);
@@ -57,8 +57,8 @@ public class CleanText {
      * @return onlyText, the prepared plaintext of the file
      */
     public static String fileStringInput(String fileInput){
-        String stripped = fileInput.replaceAll("\\s", ""); //double slash allows all whitespace to be removed. It doesn't work without the double slash - if it ain't broke don't fix it.
-        String onlyText = stripped.replaceAll("[^A-Z]", ""); //^ is 'not', so anything that isn't a letter gets removed
+        String stripped = fileInput.replaceAll("\\s", "");
+        String onlyText = stripped.replaceAll("[^A-Z]", "");
         return onlyText;
     }
 
@@ -68,12 +68,13 @@ public class CleanText {
      * @return onlyNumbers, only the integer values within a file
      */
     public static int fileNumberInput(String fileInput){
-        String stripped = fileInput.replaceAll("\\s", ""); //double slash allows all whitespace to be removed. It doesn't work without the double slash - if it ain't broke don't fix it.
+        String stripped = fileInput.replaceAll("\\s", "");
         String onlyNumbers = stripped.replaceAll("[^0-9]", "");
 
+        //Checks that the file actually contained any numbers
         if (onlyNumbers.isEmpty()) {
             System.err.println("No number specified.");
-            return -1;
+            return -1; //to prevent a null variable being returned
         }
         return Integer.parseInt(onlyNumbers);
     }
@@ -83,7 +84,7 @@ public class CleanText {
      * @return userInput, the output from the scanner that took the user's typed input
      */
     public static String getInput(){
-        userInput = input.nextLine();
+        String userInput = input.nextLine();
         return userInput;
     }
 
@@ -102,7 +103,7 @@ public class CleanText {
      * @return userNumberInput, integers but with whitespace removed
      */
     public static int getNumberInput(){
-        int userNumberInput = -1;
+        int userNumberInput = -1; //to prevent a null variable being returned
         String newInput = getKeyInput();
 
         try {

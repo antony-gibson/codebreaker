@@ -15,8 +15,8 @@ public class KeyedCaesarCipher extends Cipher{
      * @return keyedCaesar, the result of calling the encrypt function
      */
     public String keyedCaesarEncrypt(String fileName, String chosenTextFile) {
-        int shiftValue = CleanText.fileNumberInput(super.readFile(fileName));
-        String keyWord = CleanText.fileStringInput(super.readFile(fileName));
+        int shiftValue = CleanText.fileNumberInput(super.readFile(fileName)); //reads shift value from key file
+        String keyWord = CleanText.fileStringInput(super.readFile(fileName)); //reads key word from key file
         String keyedCaesar = encrypt(keyWord, shiftValue, chosenTextFile);
         return keyedCaesar;
     }
@@ -28,8 +28,8 @@ public class KeyedCaesarCipher extends Cipher{
      * @return keyedCaesar, the result of calling the decrypt function
      */
     public String keyedCaesarDecrypt(String fileName, String chosenTextFile) {
-        int shiftValue = CleanText.fileNumberInput(super.readFile(fileName));
-        String keyWord = CleanText.fileStringInput(super.readFile(fileName));
+        int shiftValue = CleanText.fileNumberInput(super.readFile(fileName)); //reads shift value from key file
+        String keyWord = CleanText.fileStringInput(super.readFile(fileName)); //reads key word from key file
         String keyedCaesar = decrypt(keyWord, shiftValue, chosenTextFile);
         return keyedCaesar;
     }
@@ -56,7 +56,7 @@ public class KeyedCaesarCipher extends Cipher{
             char keyWordChar = keyWord.charAt(i);
             int firstInstance = keyedAlphabetString.indexOf(String.valueOf(keyWordChar));
 
-            if (firstInstance < 0) { //if letter isn't already in alphabet, add it
+            if (firstInstance < 0) { //if letter isn't already in the word, append to string
                 keyedAlphabetString.append(keyWordChar);
             }
         }
@@ -66,16 +66,15 @@ public class KeyedCaesarCipher extends Cipher{
             char currentLetter = (char)(i+'A'); //adding A gives ASCII value of current position in alphabet
             int firstInstance = keyedAlphabetString.indexOf(String.valueOf(currentLetter));
 
-            if (firstInstance < 0) { //if letter isn't already in alphabet, add it
+            if (firstInstance < 0) { //if letter isn't already in string, add it
                 keyedAlphabetString.append(currentLetter);
             }
         }
-
         return keyedAlphabetString.toString();
     }
 
     /**
-     * shifts the keyed alphabet by the shift value
+     * shifts each letter of the keyed alphabet by the shift value
      * @param keyedAlphabet is the keyed alphabet created above, in createKeyedAlphabet()
      * @param shift is the shift value inputted by user into the key file
      * @return outputString, the shifted keyed alphabet to be used for encryption
@@ -114,10 +113,9 @@ public class KeyedCaesarCipher extends Cipher{
             char charInput = userInput.charAt(i);
 
             int alphabetPosition = charInput - 'A'; //subtracts ASCII value of 'A' from input, to give the position within the alphabet (from 0-25).
-            char newAlphabetPosition = shiftedKeyedAlphabet.charAt(alphabetPosition);
-            cipherStringOutput.append(newAlphabetPosition); //takes the letter at that position in the new, shifted and keyed alphabet and appends to cipher output variable
+            char newAlphabetPosition = shiftedKeyedAlphabet.charAt(alphabetPosition); //takes letter at same position in shifted and keyed alphabet
+            cipherStringOutput.append(newAlphabetPosition);
         }
-
         return cipherStringOutput.toString();
     }
 
@@ -141,11 +139,12 @@ public class KeyedCaesarCipher extends Cipher{
             //finds position in shifted alphabet of encrypted letter
             int encryptedAlphabetPosition = shiftedKeyedAlphabet.indexOf(charInput);
 
-            if (encryptedAlphabetPosition < 0) {
+            if (encryptedAlphabetPosition < 0) { //Makes sure all characters can be found in the new shifted keyed alphabet
                 System.err.println("Could not decrypt one or more characters. Please try again.");
+                System.exit(1);
             }
 
-            //matches position in normal alphabet of encrypted character.
+            //takes position of encrypted letter in shifted alphabet, returns letter at same position in normal alphabet
             char unencryptedCharacter = alphabet.charAt(encryptedAlphabetPosition);
             plainTextOutputString.append(unencryptedCharacter);
         }

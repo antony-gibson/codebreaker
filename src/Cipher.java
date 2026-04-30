@@ -17,14 +17,14 @@ public class Cipher {
      * @return fileContentString, which is the StringBuilder output of appending all lines of the file together
      */
     public static String readFile(String fileName) {
-        File file = new File(fileName); //new File object
+        File file = new File(fileName);
         StringBuilder fileContentString = new StringBuilder();
 
         try (Scanner reader = new Scanner(file)) {
             while (reader.hasNextLine()) {
-                String line = reader.nextLine(); //contents of current line stored in line variable
-                line = line.trim().toUpperCase(); //line contents are made uppercase and spaces are stripped
-                fileContentString.append(line); //line contents are appended to file content string
+                String line = reader.nextLine();
+                line = line.trim().toUpperCase();
+                fileContentString.append(line); //each line appended to fileContentString string
             }
         } catch (IOException error) {
             System.err.println("An Error has occurred: " + error.getMessage());
@@ -43,7 +43,6 @@ public class Cipher {
         String userSaveFileName = CleanText.getInput();
 
         writeToFile(userSaveFileName, contentsSaved);
-
     }
 
     /**
@@ -52,9 +51,9 @@ public class Cipher {
      * @param content is the information to be written to the file
      */
     public static void writeToFile(String fileName, String content) {
-        createFile(fileName); //creates a new file
-        try (FileWriter write = new FileWriter(fileName)) { //new FileWriter object created
-            write.write(content); //FileWriter object writes content (passed into method) to the file
+        createFile(fileName); //uses createFile to check if file already exists, if not then creates file with specified name
+        try (FileWriter write = new FileWriter(fileName)) {
+            write.write(content);
         } catch (IOException error) {
             System.err.println("An Error has occurred: " + error.getMessage());
             System.err.println("Please try again.");
@@ -67,8 +66,8 @@ public class Cipher {
      * @param fileName takes the name inputted by the user of the file to be used
      */
     public static void createFile(String fileName) {
-        File file = new File(fileName); //File object initialised
-        if (!file.exists()) { //if there isn't a file with the given name that already exists, one is created
+        File file = new File(fileName);
+        if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException error) {

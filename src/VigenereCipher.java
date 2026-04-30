@@ -15,7 +15,7 @@ public class VigenereCipher extends Cipher{
      * @return vigenereCipher, the result of calling the encrypt function
      */
     public String vigenereEncrypt(String fileName, String chosenTextFile) {
-        String keyWord = CleanText.fileStringInput(super.readFile(fileName));
+        String keyWord = CleanText.fileStringInput(super.readFile(fileName)); //reads key word from key file
         String vigenereCipher = encrypt(chosenTextFile, keyWord);
         return vigenereCipher;
     }
@@ -27,7 +27,7 @@ public class VigenereCipher extends Cipher{
      * @return vigenereCipher, the result of calling the decrypt function
      */
     public String vigenereDecrypt(String fileName, String chosenTextFile) {
-        String keyWord = CleanText.fileStringInput(super.readFile(fileName));
+        String keyWord = CleanText.fileStringInput(super.readFile(fileName)); //reads key word from key file
         String vigenereCipher = decrypt(chosenTextFile, keyWord);
         return vigenereCipher;
     }
@@ -49,11 +49,13 @@ public class VigenereCipher extends Cipher{
 
         int differenceValue = plainText.length() - keyWord.length();
 
-        if (differenceValue > 0) { //if plainText is longer than key to encrypt with
+        //if key is shorter than plaintext
+        if (differenceValue > 0) {
             int i = 0;
-            int length = keyWord.length(); //sets start of i as 0, gets length for loop below
+            int length = keyWord.length();
 
-            for (int j = differenceValue; j > 0; j--) { //loops for the size of the difference in length
+            //loops through key word, adding letters in order until size of plaintext and key word are equal
+            for (int j = differenceValue; j > 0; j--) {
                 char keyWordChar = keyWord.charAt(i);
                 keyWordString.append(keyWordChar);
                 i++;
@@ -64,7 +66,7 @@ public class VigenereCipher extends Cipher{
         } else if (differenceValue < 0) { //if key is longer than plainText
             int length = keyWordString.length();
             for (int i = length - 1; i >= plainText.length(); i--) {
-                keyWordString.deleteCharAt(i); //deletes excess characters starting at the end of the key word
+                keyWordString.deleteCharAt(i); //removes all excess characters, starting at the end of the key word
             }
         }
         this.keyWord = keyWordString.toString(); //assigns to the global variable at the top, rather than stringBuilder
@@ -82,7 +84,7 @@ public class VigenereCipher extends Cipher{
         keyWord = userKeyWord; //sets as global variable, to be used in keyLengthCalculation
         keyLengthCalculation(plainText);
 
-
+        //calls caesar cipher on each letter of plaintext, using shift of ASCII value of corresponding letter of key word
         for (int i = 0; i < plainText.length(); i++) {
             char keyWordChar = keyWord.charAt(i);
 

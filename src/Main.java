@@ -63,23 +63,24 @@ public class Main {
         int userMenuInput = CleanText.getNumberInput();
 
         switch (userMenuInput) {
-            case 0:
+            case 0: //Exit Program
                 System.exit(0);
                 break;
-            case 1:
+            case 1: //Pick a Cipher
                 displayCipherMenu();
                 break;
-            case 2:
+            case 2: //Display Other Menu Options
                 displayMainMenu();
+                break;
             default:
-                System.err.println("Please enter an available option.");
+                System.err.println("Please choose one of the available options. Try again.");
                 displayMenu();
                 break;
         }
     }
 
     /**
-     * displays main menu, calls menuActions() to carry out functions
+     * displays main menu, calls menuActions() to carry out menu functions
      */
     public void displayMainMenu() {
         mainMenu();
@@ -95,27 +96,28 @@ public class Main {
         int userCipherInput = CleanText.getNumberInput();
 
         switch (userCipherInput) {
-            case 0:
+            case 0: //Exit Program
                 System.exit(0);
                 break;
-            case 1:
+            case 1: //Caesar Cipher
                 userCipherChoice = 1;
                 cipherKeyFileName = "caesar-key.txt";
                 break;
-            case 2:
+            case 2: //Keyed Caesar Cipher
                 userCipherChoice = 2;
                 cipherKeyFileName = "keyed-caesar-key.txt";
                 break;
-            case 3:
+            case 3: //Vigenere Cipher
                 userCipherChoice = 3;
                 cipherKeyFileName = "vigenere-key.txt";
                 break;
-            case 4:
+            case 4: //Other Menu Options
                 displayMainMenu();
                 break;
             default:
                 System.err.println("Please choose one of the available options. Try again.");
                 displayCipherMenu();
+                break;
         }
 
         System.out.println("");
@@ -130,7 +132,7 @@ public class Main {
         String userInput = "";
 
         switch (userCipherChoice) {
-            case 0:
+            case 0: //If user has not chosen a cipher
                 System.err.println("Please enter a cipher before continuing.");
                 displayCipherMenu();
                 break;
@@ -145,21 +147,34 @@ public class Main {
             case 3: //Vigenere Cipher
                 System.out.println("Please enter the word to use as a key.");
                 userInput = CleanText.getKeyInput();
+                break;
+            default:
+                System.err.println("An error has occurred. Please try again.");
+                displayMainMenu();
+                break;
         }
 
-        if (userInput.isEmpty()) {
+        if (userInput.isEmpty()) { //Checks user has entered a value in the key file
             System.err.println("Please enter a key before continuing.");
             editKey();
         }
 
-        System.out.println("Are you sure? ***This will overwrite any existing file contents.***");
+        //Checks user intends to overwrite current key file contents
         System.out.println("Press 1 to save, press 0 to go back.");
+        System.out.println("***This will overwrite any existing file contents.***");
         int userSelection = CleanText.getNumberInput();
 
-        if (userSelection == 1) {
-            Cipher.writeToFile(cipherKeyFileName, userInput);
-        } else if (userSelection == 0) {
-            displayMainMenu();
+        switch (userSelection) {
+            case 0:
+                displayMainMenu();
+                break;
+            case 1:
+                Cipher.writeToFile(cipherKeyFileName, userInput);
+                break;
+            default:
+                System.err.println("Please choose one of the available options. Try again.");
+                editKey();
+                break;
         }
     }
 
@@ -167,13 +182,13 @@ public class Main {
      * displays the key file to user
      */
     public void displayKey() {
+        //Checks user has chosen a cipher
         if (cipherKeyFileName == null) {
             System.err.println("Please select a cipher before continuing.");
             displayCipherMenu();
         }
 
-        System.out.println("Here is the current key: ");
-        System.out.println(Cipher.readFile(cipherKeyFileName));
+        System.out.println("Here is the current key: " + cipherKeyFileName);
     }
 
     /**
@@ -188,6 +203,7 @@ public class Main {
      * saves to and reads prepared plaintext from prep.txt file
      */
     public void displayPreparedPlaintextFile() {
+        //Checks user has entered a file
         if (chosenTextFile == null) {
             System.err.println("Please enter a plaintext file before continuing.");
             displayMainMenu();
@@ -225,30 +241,30 @@ public class Main {
      * encrypts user-chosen file based on the chosen cipher.
      */
     public void encryptFile() {
-        //chosenTextFile is declared at the top of Main
 
         switch (userCipherChoice) {
-            case 0:
+            case 0: //If user hasn't chosen a cipher
                 System.err.println("Please enter a cipher before trying to encrypt a file.");
                 displayCipherMenu();
-            case 1:
+            case 1: //Caesar Cipher
                 checkCipherKeyFile(cipherKeyFileName);
                 checkChosenTextFile(chosenTextFile);
                 cipherOutput = caesarCipher.caesarEncrypt(cipherKeyFileName, chosenTextFile);
                 break;
-            case 2:
+            case 2: //Keyed Caesar Cipher
                 checkCipherKeyFile(cipherKeyFileName);
                 checkChosenTextFile(chosenTextFile);
                 cipherOutput = keyedCaesarCipher.keyedCaesarEncrypt(cipherKeyFileName, chosenTextFile);
                 break;
-            case 3:
+            case 3: //Vigenere Cipher
                 checkCipherKeyFile(cipherKeyFileName);
                 checkChosenTextFile(chosenTextFile);
                 cipherOutput = vigenereCipher.vigenereEncrypt(cipherKeyFileName, chosenTextFile);
                 break;
             default:
-                System.err.println("An error has occurred. Please try again.");
-                System.exit(1);
+                System.err.println("An error has occured. Please try again.");
+                displayMainMenu();
+                break;
         }
     }
 
@@ -257,19 +273,20 @@ public class Main {
      * @param contentsToSave is the contents passed into this method to save to the specified file
      */
     public void saveToFile(String contentsToSave) {
-
+        //Checks user has chosen a cipher
         if (userCipherChoice == 0) {
             System.err.println("Please enter a cipher before continuing.");
             displayCipherMenu();
         }
 
+        //Checks user has encrypted or decrypted a file before attempting to save
         if (contentsToSave == null) {
             System.err.println("Please encrypt or decrypt a file before trying to save.");
             displayMainMenu();
         }
 
-        System.out.println("***This will overwrite any existing file contents***");
         System.out.println("Press 1 to save, press 0 to go back.");
+        System.out.println("***This will overwrite any existing file contents***");
         int userSelection = CleanText.getNumberInput();
 
         switch (userSelection) {
@@ -297,17 +314,17 @@ public class Main {
                 }
                 break;
             default:
-                System.err.println("Please enter one of the displayed options.");
+                System.err.println("Please choose one of the available options. Try again.");
                 saveToFile(contentsToSave);
+                break;
         }
-
-
     }
 
     /**
      * displays cipher text to the user
      */
     public void displayCipherTextFile() {
+        //Checks user has encrypted a file before trying to display the ciphertext output
         if (cipherOutput == null) {
             System.err.println("Please encrypt a file before trying to display it.");
             displayMainMenu();
@@ -320,8 +337,10 @@ public class Main {
      * decrypts user-specified file according to which cipher the user chose
      */
     public void decryptFile() {
+        //Takes output of user's chosen file by calling fileOutput method in CleanText, prevents user having to re-enter the file name
         String fileOutput = CleanText.fileOutput();
 
+        //Checks user has chosen a cipher and entered a file to decrypt
         if (fileOutput == null && userCipherChoice == 0) {
             System.err.println("Please enter a cipher before trying to decrypt a file.");
             displayCipherMenu();
@@ -330,27 +349,27 @@ public class Main {
         }
 
         switch (userCipherChoice) {
-            case 0:
+            case 0: //If user has not chosen a cipher
                 System.err.println("Please enter a cipher before trying to decrypt a file.");
                 displayCipherMenu();
-            case 1:
+            case 1: //Caesar Cipher
                 checkCipherKeyFile(cipherKeyFileName);
                 checkChosenTextFile(chosenTextFile);
                 plainTextOutput = caesarCipher.caesarDecrypt(cipherKeyFileName, chosenTextFile);
                 break;
-            case 2:
+            case 2: //Keyed Caesar Cipher
                 checkCipherKeyFile(cipherKeyFileName);
                 checkChosenTextFile(chosenTextFile);
                 plainTextOutput = keyedCaesarCipher.keyedCaesarDecrypt(cipherKeyFileName, chosenTextFile);
                 break;
-            case 3:
+            case 3: //Vigenere Cipher
                 checkCipherKeyFile(cipherKeyFileName);
                 checkChosenTextFile(chosenTextFile);
                 plainTextOutput = vigenereCipher.vigenereDecrypt(cipherKeyFileName, chosenTextFile);
                 break;
             default:
                 System.err.println("An error has occurred. Please try again.");
-                System.exit(1);
+                displayMainMenu();
                 break;
         }
         System.out.println("Decrypted File: " + plainTextOutput);
@@ -362,45 +381,45 @@ public class Main {
     public void menuActions() {
 
         switch (userMainMenuInput) {
-            case 0: //exit
+            case 0: //Exit Program
                 System.exit(0);
                 break;
-            case 1: //choose the cipher
+            case 1: //Choose a Cipher
                 displayCipherMenu();
                 break;
-            case 2: //edit the key
+            case 2: //Edit the Key
                 editKey();
                 displayMainMenu();
                 break;
-            case 3: //display the key
+            case 3: //Display the Key
                 displayKey();
                 displayMainMenu();
                 break;
-            case 4: //input plaintext file
+            case 4: //Input a Plaintext File
                 enterFile();
                 displayMainMenu();
                 break;
-            case 5: //display prepared plaintext file
+            case 5: //Display the Prepared Plaintext File
                 displayPreparedPlaintextFile();
                 displayMainMenu();
                 break;
-            case 6: //encrypt the file using the chosen cipher
+            case 6: //Encrypt the File
                 encryptFile();
                 displayMainMenu();
                 break;
-            case 7: //display encrypted cipher output
+            case 7: //Display the Ciphertext
                 displayCipherTextFile();
                 displayMainMenu();
                 break;
-            case 8: //save cipher text to file
+            case 8: //Save Ciphertext to File
                 saveToFile(cipherOutput);
                 displayMainMenu();
                 break;
-            case 9: //input ciphertext file to decrypt
+            case 9: //Input Ciphertext File to Decrypt
                 enterFile();
                 displayMainMenu();
                 break;
-            case 10: //decrypt ciphertext file
+            case 10: //Decrypt and Display the Ciphertext File
                 decryptFile();
                 saveToFile(plainTextOutput);
                 displayMainMenu();
@@ -412,9 +431,8 @@ public class Main {
     }
 
     /**
-     * runs Main
+     * Starts the Program
      */
-    //initialises the functions to run: without this, Main.java cannot be run by IntelliJ
     public static void main(String[] args){
         Main main = new Main();
         main.displayMenu();
