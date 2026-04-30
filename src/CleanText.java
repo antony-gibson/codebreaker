@@ -110,6 +110,7 @@ public class CleanText {
             userNumberInput = Integer.parseInt(newInput.replaceAll("[^0-9]", ""));
             return userNumberInput;
         } catch (NumberFormatException error) {
+            System.err.println("An error has occurred. " + error.getMessage());
         }
         return userNumberInput;
     }

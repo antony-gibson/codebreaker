@@ -262,7 +262,7 @@ public class Main {
                 cipherOutput = vigenereCipher.vigenereEncrypt(cipherKeyFileName, chosenTextFile);
                 break;
             default:
-                System.err.println("An error has occured. Please try again.");
+                System.err.println("An error has occurred. Please try again.");
                 displayMainMenu();
                 break;
         }
